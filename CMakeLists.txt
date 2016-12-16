@@ -38,6 +38,7 @@ set(MY_HEADER_FILES
 	shader.hpp
   controls.hpp
   SceneObject.hpp
+  model.hpp
 )
 
 set(MY_SOURCE_FILES
@@ -46,6 +47,7 @@ set(MY_SOURCE_FILES
 	shader.cpp
   controls.cpp
   SceneObject.cpp
+  model.cpp
 )
 
 set (VERTEX_SHADER SimpleVertexShader.glsl)
@@ -88,13 +90,13 @@ endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 # Add a checkbox in CMakeGUI :
 
-set(SOME_STUFF OFF CACHE BOOL "Check this to print an extra message at the beginning of main()")
+set(PERFORMANCE_TOOLS ON BOOL "Check this to print out performance data.")
 
 # Add a preprocessor define :
 
-if(SOME_STUFF)
-    message("Compiling with preprocessor directives...")
+if(PERFORMANCE_TOOLS)
+    message("Compiling with performance tools...")
 	add_definitions(
-		-DCOMPILE_WITH_SOME_PREPROCESSOR_DIRECTIVE
+		-DCOMPILE_WITH_PERFORMANCE_TOOLS
 	)
-endif(SOME_STUFF)
+endif(PERFORMANCE_TOOLS)

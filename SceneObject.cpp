@@ -1,8 +1,9 @@
 #include "SceneObject.hpp"
+#include <iostream>
 
 using namespace ParamWorld;
 
-static const GLfloat g_vertex_buffer_data[] = {
+static const GLfloat vert_data[] = {
     -1.0f,-1.0f,-1.0f, // triangle 1 : begin
     -1.0f,-1.0f, 1.0f,
     -1.0f, 1.0f, 1.0f, // triangle 1 : end
@@ -41,7 +42,7 @@ static const GLfloat g_vertex_buffer_data[] = {
     1.0f,-1.0f, 1.0f
   };
 
-  static const GLfloat g_color_buffer_data[] = {
+ static const GLfloat c_data[] = {
       0.583f,  0.771f,  0.014f,
       0.609f,  0.115f,  0.436f,
       0.327f,  0.483f,  0.844f,
@@ -80,54 +81,20 @@ static const GLfloat g_vertex_buffer_data[] = {
       0.982f,  0.099f,  0.879f
   };
 
-void TestCube::InitBuffer() {
-    glGenBuffers(1, &vertexbuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-    glBufferData(
-      GL_ARRAY_BUFFER,
-      sizeof(g_vertex_buffer_data),
-      g_vertex_buffer_data,
-      GL_STATIC_DRAW
-    );
+TestCube::TestCube(glm::vec3 pos) : SceneObject(nullptr, pos) {
+    int i = 0;
+    for (i = 0; i < 36 * 3; i+=3) {
+        m.AddVertex(vert_data[i],
+            vert_data[i+1],
+            vert_data[i+2],
+            Color(c_data[i], c_data[i+1], c_data[i+2]));
 
-    glGenBuffers(1, &colorbuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
-    glBufferData(
-      GL_ARRAY_BUFFER,
-      sizeof(g_color_buffer_data),
-      g_color_buffer_data,
-      GL_STATIC_DRAW
-    );
+    }
+    std::cout << "i = " << i << std::endl;
+    std::cout << "Full thing = " << sizeof(vert_data) << std::endl;
 }
 
-glm::mat4 TestCube::calcModelMatrix() {
+
+glm::mat4 SceneObject::calcModelMatrix() {
     return glm::translate(rootPosition);
-}
-
-void TestCube::drawBuffer() {
-    glEnableVertexAttribArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-    glVertexAttribPointer(
-      0, // attribute 0, no reason for 0, but must match layout in shader
-      3, // size
-      GL_FLOAT, // type
-      GL_FALSE, // normalized
-      0,  // stride
-      (void*)0 // array buffer offset
-    );
-
-    glEnableVertexAttribArray(1);
-    glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
-    glVertexAttribPointer(
-      1,
-      3,
-      GL_FLOAT,
-      GL_FALSE,
-      0,
-      (void*)0
-    );
-
-    glDrawArrays(GL_TRIANGLES, 0, 36);
-    glDisableVertexAttribArray(0);
-    glDisableVertexAttribArray(1);
 }

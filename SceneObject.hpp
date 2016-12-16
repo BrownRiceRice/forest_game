@@ -5,30 +5,29 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
+#include "model.hpp"
 
 namespace ParamWorld {
 
 class SceneObject {
 public:
-		float *params;
-		glm::vec3 rootPosition;
-		virtual void InitBuffer()=0;
-		virtual glm::mat4 calcModelMatrix()=0;
-		virtual void drawBuffer()=0;
-		SceneObject(float *params, glm::vec3 rootPos) : params(params), rootPosition(rootPos) {}
+	float *params;
+	glm::vec3 rootPosition;
+
+    void init() { m.InitBuffer(); }
+	glm::mat4 calcModelMatrix();
+	void draw() { m.drawBuffer(); };
+	SceneObject(float *params, glm::vec3 rootPos) : params(params),
+     rootPosition(rootPos) {}
+
+protected:
+    Model m;
 
 };
 
-class TestCube : SceneObject {
+class TestCube : public SceneObject {
 public:
-	  TestCube(glm::vec3 pos): SceneObject(nullptr, pos) {}
-
-    void InitBuffer();
-		glm::mat4 calcModelMatrix();
-		void drawBuffer();
-
-//private:
-    GLuint vertexbuffer, colorbuffer;
+	TestCube(glm::vec3 pos);
 };
 
 }

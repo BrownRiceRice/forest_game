@@ -19,8 +19,8 @@ GLFWwindow *window;
 
 int main( void )
 {
-#ifdef COMPILE_WITH_SOME_PREPROCESSOR_DIRECTIVE
-	  printf("You checked the SOME_STUFF button in CMake!\n");
+#ifdef COMPILE_WITH_PERFORMANCE_TOOLS
+	  printf("You opted into showing performanec and debug tools. Printing average ms per frame.\n");
       fflush(stdout);
 #endif
 
@@ -91,13 +91,31 @@ int main( void )
 
     TestCube cube(glm::vec3(0, 0, 0));
     TestCube cube2(glm::vec3(5, 0, 0));
-    cube.InitBuffer();
-    cube2.InitBuffer();
+    cube.init();
+    cube2.init();
     //cube.vertexbuffer = vertexbuffer;
     //cube.colorbuffer = colorbuffer;
     Player player(glm::vec3(0, 1.7, 5));
 
+    #ifdef COMPILE_WITH_PERFORMANCE_TOOLS
+    double lastTime = glfwGetTime();
+    int nbFrames = 0;
+    #endif
+
 	  do{
+
+          // Measure speed
+          #ifdef COMPILE_WITH_PERFORMANCE_TOOLS
+       double currentTime = glfwGetTime();
+       nbFrames++;
+       if ( currentTime - lastTime >= 1.0 ){ // If last prinf() was more than 1 sec ago
+           // printf and reset timer
+           printf("%f ms/frame\n", 1000.0/double(nbFrames));
+           nbFrames = 0;
+           lastTime += 1.0;
+       }
+       #endif
+
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glUseProgram(programID);
 
@@ -111,13 +129,13 @@ int main( void )
 
         glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
 
-        cube.drawBuffer();
+        cube.draw();
 
         ModelMatrix = cube2.calcModelMatrix();
         mvp = PVMatrix * ModelMatrix;
 
         glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
-        cube2.drawBuffer();
+        cube2.draw();
 
 	  	  // Swap buffers
 	  	  glfwSwapBuffers(window);
