@@ -5,6 +5,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
+#include <glm/gtc/quaternion.hpp>
+#include <glm/gtx/quaternion.hpp>
 #include <vector>
 
 namespace ParamWorld {
@@ -25,17 +27,19 @@ class Model {
 public:
     void InitBuffer();
     void drawBuffer();
-    //void AddBox(Color c, float x1, float y1, float z1,
-    //                     float x2, float y2, float z2);
-    //void AddBox(Color c, glm::vec3 origin, glm::vec3 size);
-    //void AddTetra(Color color, glm::vec3 a, glm::vec3 b, glm::vec3 c, glm::vec3 d);
-    //void AddBox(Color c, glm::vec3 origin, glm::vec3 size, glm::fquat rotation);
-    uint16_t AddVertex(float x, float y, float z, const Color& c);
+    void AddBoxFromCorner(float x1, float y1, float z1,
+                float x2, float y2, float z2,
+                Color c);
+    void AddBoxFromCorner(Color c, glm::vec3 origin, glm::vec3 size);
+    void AddBoxFromCenter(Color c, glm::vec3 origin, glm::vec3 size);
+    void AddTetra(Color color, glm::vec3 top, glm::vec3 l, glm::vec3 r, glm::vec3 b);
+    void AddBoxFromCenter(Color c, glm::vec3 center, glm::vec3 size, glm::fquat rotation);
+    //uint16_t AddVertex(float x, float y, float z, const Color& c);
 
     Model() {}
 
 protected:
-    //uint16_t AddVertex(float x, float y, float z, const Color& c);
+    uint16_t AddVertex(float x, float y, float z, const Color& c);
 
 private:
     GLuint vertexbuffer, colorbuffer;

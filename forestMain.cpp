@@ -11,6 +11,7 @@
 #include "shader.hpp"
 #include "controls.hpp"
 #include "SceneObject.hpp"
+#include "TreeObject.h"
 
 using namespace glm;
 using namespace ParamWorld;
@@ -89,10 +90,12 @@ int main( void )
     glGenVertexArrays(1, &VertexArrayID);
     glBindVertexArray(VertexArrayID);
 
-    TestCube cube(glm::vec3(0, 0, 0));
-    TestCube cube2(glm::vec3(5, 0, 0));
-    cube.init();
-    cube2.init();
+    //TestCube cube(glm::vec3(-5, 0, 0));
+    TreeObject tree(glm::vec3(0.0f, 0.0f, 0.0f), 3, 2.0f, .3f, .8f, 3.14159f/4.0f, Color(0.0f, 1.0, 0.0f), Color(1.0f, 0.0f, 0.0f), 1.0f);
+    //TestCube cube2(glm::vec3(5, 0, 0));
+    //cube.init();
+    //cube2.init();
+    tree.init();
     //cube.vertexbuffer = vertexbuffer;
     //cube.colorbuffer = colorbuffer;
     Player player(glm::vec3(0, 1.7, 5));
@@ -124,22 +127,29 @@ int main( void )
         glm::mat4 ViewMatrix = player.getViewMatrix();
         glm::mat4 PVMatrix = ProjectionMatrix * ViewMatrix;
 
-        glm::mat4 ModelMatrix = cube.calcModelMatrix();
+        //glm::mat4 ModelMatrix = cube.calcModelMatrix();
+        //glm::mat4 mvp = PVMatrix * ModelMatrix;
+
+        //glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
+
+        //cube.draw();
+
+        //ModelMatrix = cube2.calcModelMatrix();
+        //mvp = PVMatrix * ModelMatrix;
+
+        //glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
+        //cube2.draw();
+
+
+        glm::mat4 ModelMatrix = tree.calcModelMatrix();
         glm::mat4 mvp = PVMatrix * ModelMatrix;
 
         glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
+        tree.draw();
 
-        cube.draw();
-
-        ModelMatrix = cube2.calcModelMatrix();
-        mvp = PVMatrix * ModelMatrix;
-
-        glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
-        cube2.draw();
-
-	  	  // Swap buffers
-	  	  glfwSwapBuffers(window);
-	  	  glfwPollEvents();
+	  	 // Swap buffers
+	  	 glfwSwapBuffers(window);
+	  	 glfwPollEvents();
 
 	  } // Check if the ESC key was pressed or the window was closed
 	  while( glfwGetKey( window, GLFW_KEY_ESCAPE ) != GLFW_PRESS &&

@@ -36,18 +36,25 @@ set(MY_HEADER_FILES
 	# put all your .h here. Right now we have none.
 	# Example :
 	shader.hpp
-  controls.hpp
-  SceneObject.hpp
-  model.hpp
+    controls.hpp
+    SceneObject.hpp
+    model.hpp
+    SceneObjects/SceneParams.h
+    SceneObjects/SParam.h
+    SceneObjects/AvailableParameters.h
+    TreeObject.h
+
+
 )
 
 set(MY_SOURCE_FILES
 	# put all your .c/.cpp here.
 	forestMain.cpp
-	shader.cpp
-  controls.cpp
-  SceneObject.cpp
-  model.cpp
+    shader.cpp
+    controls.cpp
+    SceneObject.cpp
+    model.cpp
+    TreeObject.cpp
 )
 
 set (VERTEX_SHADER SimpleVertexShader.glsl)

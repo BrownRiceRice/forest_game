@@ -1,9 +1,10 @@
 #include "SceneObject.hpp"
 #include <iostream>
+#include <glm/gtc/quaternion.hpp>
 
 using namespace ParamWorld;
 
-static const GLfloat vert_data[] = {
+/*static const GLfloat vert_data[] = {
     -1.0f,-1.0f,-1.0f, // triangle 1 : begin
     -1.0f,-1.0f, 1.0f,
     -1.0f, 1.0f, 1.0f, // triangle 1 : end
@@ -15,32 +16,32 @@ static const GLfloat vert_data[] = {
     1.0f,-1.0f,-1.0f,
     1.0f, 1.0f,-1.0f,
     1.0f,-1.0f,-1.0f,
-    -1.0f,-1.0f,-1.0f,
+    -1.0f,-1.0f,-1.0f, // face 2 end
     -1.0f,-1.0f,-1.0f,
     -1.0f, 1.0f, 1.0f,
     -1.0f, 1.0f,-1.0f,
     1.0f,-1.0f, 1.0f,
     -1.0f,-1.0f, 1.0f,
-    -1.0f,-1.0f,-1.0f,
+    -1.0f,-1.0f,-1.0f, // face 3 end
     -1.0f, 1.0f, 1.0f,
     -1.0f,-1.0f, 1.0f,
     1.0f,-1.0f, 1.0f,
     1.0f, 1.0f, 1.0f,
     1.0f,-1.0f,-1.0f,
-    1.0f, 1.0f,-1.0f,
+    1.0f, 1.0f,-1.0f,// face 4 end
     1.0f,-1.0f,-1.0f,
     1.0f, 1.0f, 1.0f,
     1.0f,-1.0f, 1.0f,
     1.0f, 1.0f, 1.0f,
     1.0f, 1.0f,-1.0f,
-    -1.0f, 1.0f,-1.0f,
+    -1.0f, 1.0f,-1.0f,// face 5 end
     1.0f, 1.0f, 1.0f,
     -1.0f, 1.0f,-1.0f,
     -1.0f, 1.0f, 1.0f,
     1.0f, 1.0f, 1.0f,
     -1.0f, 1.0f, 1.0f,
-    1.0f,-1.0f, 1.0f
-  };
+    1.0f,-1.0f, 1.0f // face 6 end
+}; */
 
  static const GLfloat c_data[] = {
       0.583f,  0.771f,  0.014f,
@@ -82,16 +83,20 @@ static const GLfloat vert_data[] = {
   };
 
 TestCube::TestCube(glm::vec3 pos) : SceneObject(nullptr, pos) {
-    int i = 0;
-    for (i = 0; i < 36 * 3; i+=3) {
-        m.AddVertex(vert_data[i],
-            vert_data[i+1],
-            vert_data[i+2],
-            Color(c_data[i], c_data[i+1], c_data[i+2]));
-
-    }
-    std::cout << "i = " << i << std::endl;
-    std::cout << "Full thing = " << sizeof(vert_data) << std::endl;
+    //int i = 0;
+    //for (i = 0; i < 36 * 3; i+=3) {
+     //   m.AddVertex(vert_data[i],
+    //        vert_data[i+1],
+    //        vert_data[i+2],
+    //        Color(c_data[i], c_data[i+1], c_data[i+2]));
+    //}
+   // std::cout << "i = " << i << std::endl;
+    //std::cout << "Full thing = " << sizeof(vert_data) << std::endl;
+    //m.AddBox(-1.0f, -1.0f, -1.0f, 1.0f, 1.0f, 1.0f, Color(1.0f, 0.0f, 0.0f));
+    //m.AddBox(Color(1.0f, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(2.0f, 2.0f, 2.0f));
+    //m.AddTetra(Color(1.0f, 0.0f, 0.0f), glm::vec3(0, 1, 0), glm::vec3(-1, 0, 1), glm::vec3(1, 0, 1), glm::vec3(0, 0, -1));
+    m.AddBoxFromCenter(Color(1.0f, 0.0f, 0.0f), glm::vec3(0, 2, 0), glm::vec3(2.5f, 2.5f, 2.5f),
+            glm::angleAxis((float)(3.14159/4.0), glm::vec3(0.0f, 0.0f, 1.0f)));
 }
 
 
