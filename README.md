@@ -6,7 +6,7 @@ Forest is a port of a hackathon project I did on the Oculus (TODO: link project 
 
 * Start porting old code over
   * [x] draw a single tree object
-  * [ ] draw a single rock object
+  * [x] draw a single rock object
   * [ ] get the world (ground, stars) up and running
   * [ ] get the params up and running
   * [ ] get adding new objects working

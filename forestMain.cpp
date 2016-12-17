@@ -12,6 +12,7 @@
 #include "controls.hpp"
 #include "SceneObject.hpp"
 #include "TreeObject.h"
+#include "RockObject.h"
 
 using namespace glm;
 using namespace ParamWorld;
@@ -92,10 +93,12 @@ int main( void )
 
     //TestCube cube(glm::vec3(-5, 0, 0));
     TreeObject tree(glm::vec3(0.0f, 0.0f, 0.0f), 3, 2.0f, .3f, .8f, 3.14159f/4.0f, Color(0.0f, 1.0, 0.0f), Color(1.0f, 0.0f, 0.0f), 1.0f);
+    RockObject rock(3, Color(0.8f, 0.0f, 0.0f), glm::vec3(4.0f, 0.0f, 0.0f), glm::vec2(0.0f, 1.0f), glm::vec2(0.0f, -1.0f), glm::vec2(-0.6f, 0.5f), 1.0f);
     //TestCube cube2(glm::vec3(5, 0, 0));
     //cube.init();
     //cube2.init();
     tree.init();
+    rock.init();
     //cube.vertexbuffer = vertexbuffer;
     //cube.colorbuffer = colorbuffer;
     Player player(glm::vec3(0, 1.7, 5));
@@ -140,12 +143,17 @@ int main( void )
         //glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
         //cube2.draw();
 
-
         glm::mat4 ModelMatrix = tree.calcModelMatrix();
         glm::mat4 mvp = PVMatrix * ModelMatrix;
 
         glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
         tree.draw();
+
+        ModelMatrix = rock.calcModelMatrix();
+        mvp = PVMatrix * ModelMatrix;
+
+        glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
+        rock.draw();
 
 	  	 // Swap buffers
 	  	 glfwSwapBuffers(window);

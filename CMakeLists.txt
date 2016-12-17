@@ -43,7 +43,7 @@ set(MY_HEADER_FILES
     SceneObjects/SParam.h
     SceneObjects/AvailableParameters.h
     TreeObject.h
-
+    RockObject.h
 
 )
 
@@ -55,6 +55,7 @@ set(MY_SOURCE_FILES
     SceneObject.cpp
     model.cpp
     TreeObject.cpp
+    RockObject.cpp
 )
 
 set (VERTEX_SHADER SimpleVertexShader.glsl)
