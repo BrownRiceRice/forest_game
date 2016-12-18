@@ -1,7 +1,7 @@
 #ifndef WORLD_HPP
 #define WORLD_HPP
 
-#include "/usr/local/include/GLFW/glfw3.h"
+#include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/quaternion.hpp>
@@ -9,10 +9,11 @@
 #include <glm/gtx/transform.hpp>
 #include <unordered_set>
 #include <vector>
-#include "SceneObjects/SceneParams.h"
-#include "SceneObject.hpp"
-#include "TreeObject.h"
-#include "RockObject.h"
+
+#include "Params/SceneParams.h"
+#include "SceneObjects/SceneObject.hpp"
+#include "SceneObjects/TreeObject.hpp"
+#include "SceneObjects/RockObject.hpp"
 
 namespace ParamWorld {
 
@@ -59,9 +60,8 @@ private:
 
     GLuint MatrixID;
 
+    const float radius = 10.0f;
 };
 } // end namespace
-
-
 
 #endif

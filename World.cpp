@@ -35,10 +35,9 @@ void World::updateExploredSquares(glm::vec3 position, float horizontalAngle) {
 
 void World::AddMoreThings(float x, float z, float horizontalAngle) {
     std::cout << "Number of objects in the world: " << worldObjects.size() << std::endl;
-    const float radius = 10.0f;
     int newThings = rand() % 3;
     for (int i = 0; i < newThings; i++) {
-		float theta = ((static_cast <float> (rand()) / static_cast <float> (RAND_MAX)) * MATH_FLOAT_PI * .7f) - (MATH_FLOAT_PI * .35f); // wide FOV
+		float theta = ((static_cast <float> (rand()) / static_cast <float> (RAND_MAX)) * MATH_FLOAT_PI * .7f) - (MATH_FLOAT_PI * .35f);
         glm::vec3 dirFacing(
             sin(horizontalAngle),
             0,
@@ -46,15 +45,12 @@ void World::AddMoreThings(float x, float z, float horizontalAngle) {
         );
         glm::vec3 rootPos = glm::vec3(x, 0, z) + glm::rotate(glm::angleAxis(theta, glm::vec3(0, 1, 0)), dirFacing * radius);
         if ((rand() % 2) == 0) {
-            std::cout << "Adding tree" << std::endl;
             TreeObject tree(rootPos, sceneParams.generate(2.0f));
             tree.init();
             worldObjects.push_back(tree);
             // TODO: add support for 'growing' models.
             // TODO: add support for 'relevant' models.
         } else {
-            std::cout << "Adding Rock" << std::endl;
-            //RockObject rock(4, sceneParams.generate(2.0f));
 			RockObject rock(4, Color(.8, .9, .75), rootPos, glm::vec2(rootPos.x + 1.0f, rootPos.z),
 				glm::vec2(rootPos.x - 0.5f, rootPos.z - .5f), glm::vec2(rootPos.x - 0.5f, rootPos.z + 0.5f), 1.4f);
             rock.init();

@@ -35,28 +35,28 @@ set(GLM_INCLUDE_PATH "/usr/local/Cellar/glm/0.9.8.3/include" CACHE PATH "Directo
 set(MY_HEADER_FILES
 	# put all your .h here. Right now we have none.
 	# Example :
+    Params/SceneParams.h
+    Params/SParam.h
+    Params/AvailableParameters.h
 	shader.hpp
-    controls.hpp
-    SceneObject.hpp
-    model.hpp
-    SceneObjects/SceneParams.h
-    SceneObjects/SParam.h
-    SceneObjects/AvailableParameters.h
-    TreeObject.h
-    RockObject.h
+    Player.hpp
+    SceneObjects/SceneObject.hpp
+    SceneObjects/Model.hpp
+    SceneObjects/TreeObject.hpp
+    SceneObjects/RockObject.hpp
     World.hpp
 )
 
 set(MY_SOURCE_FILES
 	# put all your .c/.cpp here.
-	forestMain.cpp
+    SceneObjects/Model.cpp
+    SceneObjects/SceneObject.cpp
+    SceneObjects/TreeObject.cpp
+    SceneObjects/RockObject.cpp
     shader.cpp
-    controls.cpp
-    SceneObject.cpp
-    model.cpp
-    TreeObject.cpp
-    RockObject.cpp
+    Player.cpp
     World.cpp
+	forestMain.cpp
 )
 
 set (VERTEX_SHADER SimpleVertexShader.glsl)

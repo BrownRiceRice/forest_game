@@ -8,8 +8,12 @@ Forest is a port of a hackathon project I did on the Oculus (TODO: link project 
   * [x] draw a single tree object
   * [x] draw a single rock object
   * [ ] get the world (ground, stars) up and running
+    * [x] ground
+    * [ ] stars
   * [ ] get the params up and running
-  * [ ] get adding new objects working
+    *  [x] params existing
+    *  [ ] params updating based on approached objects
+  * [x] get adding new objects working
 * Finish README and start issues to track rest of the things on github
 * Enhance
   * [Add shading](http://www.opengl-tutorial.org/beginners-tutorials/tutorial-8-basic-shading/)
