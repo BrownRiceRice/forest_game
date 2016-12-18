@@ -3,7 +3,7 @@
 # For an introduction to CMake, see
 # http://www.cmake.org/cmake/help/cmake_tutorial.html (at least steps 1 and 2)
 
-cmake_minimum_required (VERSION 2.6)
+cmake_minimum_required (VERSION 3.1.0 FATAL_ERROR)
 project (ForestMacPort)
 
 find_package(PkgConfig REQUIRED)
@@ -44,7 +44,7 @@ set(MY_HEADER_FILES
     SceneObjects/AvailableParameters.h
     TreeObject.h
     RockObject.h
-
+    World.hpp
 )
 
 set(MY_SOURCE_FILES
@@ -56,6 +56,7 @@ set(MY_SOURCE_FILES
     model.cpp
     TreeObject.cpp
     RockObject.cpp
+    World.cpp
 )
 
 set (VERTEX_SHADER SimpleVertexShader.glsl)
@@ -71,6 +72,8 @@ add_executable(Forest
 	${MY_HEADER_FILES}
 	${MY_SOURCE_FILES}
 )
+
+target_compile_features(Forest PRIVATE cxx_nonstatic_member_init)
 
 target_link_libraries(Forest
 	${OPENGL_LIBRARY} # filled by "find_package(OpenGL REQUIRED)"

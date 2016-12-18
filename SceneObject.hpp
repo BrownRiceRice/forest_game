@@ -30,6 +30,17 @@ public:
 	TestCube(glm::vec3 pos);
 };
 
+// A single scene object that should just contain large swaths of a skinny box.
+class Ground : public SceneObject {
+public:
+    Ground(float worldExtent) :
+            SceneObject(nullptr, glm::vec3(0, 0, 0)) {
+        m.AddBoxFromCenter(groundColor, glm::vec3(0, 0, 0), glm::vec3(worldExtent, 0.01f, worldExtent));
+    }
+
+private:
+    const Color groundColor = Color(0.04f, 0.027f, 0.0157f);
+};
 }
 
 

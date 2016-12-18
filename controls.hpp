@@ -11,6 +11,9 @@ namespace ParamWorld {
 class Player {
 public:
 
+  glm::vec3 position;
+
+  float horizontalAngle;
   void computeMatricesFromInputs(GLFWwindow *window);
   glm::mat4 getViewMatrix() {
     return ViewMatrix;
@@ -28,9 +31,6 @@ public:
 
 private:
   double lastTime;
-  glm::vec3 position;
-
-  float horizontalAngle;
   float verticalAngle;
 
   float initialFoV;

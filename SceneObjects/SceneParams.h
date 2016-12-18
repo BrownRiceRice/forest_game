@@ -14,6 +14,8 @@
 #include <map>
 #include <cmath>
 
+#define MATH_FLOAT_PI 3.1415926f
+
 using namespace ParamWorld;
 
 class SceneParams
@@ -223,22 +225,22 @@ public:
 
 		randomGenerator.seed(((unsigned int)time(NULL)));
 		// Colors
-		AllParams[SP_Red] = new SParam(true, 0.0f, 255.0f);
-		AllParams[SP_Green] = new SParam(true, 0.0f, 255.0f);
-		AllParams[SP_Blue] = new SParam(true, 0.0f, 255.0f);
-		AllParams[SP_Alpha] = new SParam(true, 0.0f, 255.0f);
+		AllParams[SP_Red] = new SParam(false, 0.0f, 1.0f);
+		AllParams[SP_Green] = new SParam(false, 0.0f, 1.0f);
+		AllParams[SP_Blue] = new SParam(false, 0.0f, 1.0f);
+		AllParams[SP_Alpha] = new SParam(false, 0.0f, 1.0f);
 
 		AllParams[SP_Depth] = new SParam(true, 1.0f, 8.0f);
 		AllParams[SP_Width] = new SParam(false, 0.1f, 2.0f);
 		AllParams[SP_Height] = new SParam(false, 0.2f, 20.0f);
 		AllParams[SP_Scale] = new SParam(false, 0.1f, .98f);
 		AllParams[SP_SplitAngle] = new SParam(false, 0.1f, MATH_FLOAT_PI/4);
-		AllParams[SP_BranchR] = new SParam(true, 0.0f, 255.0f);
-		AllParams[SP_BranchG] = new SParam(true, 0.0f, 255.0f);
-		AllParams[SP_BranchB] = new SParam(true, 0.0f, 255.0f);
-		AllParams[SP_LeafR] = new SParam(true, 0.0f, 255.0f);
-		AllParams[SP_LeafG] = new SParam(true, 0.0f, 255.0f);
-		AllParams[SP_LeafB] = new SParam(true, 0.0f, 255.0f);
+		AllParams[SP_BranchR] = new SParam(false, 0.0f, 1.0f);
+		AllParams[SP_BranchG] = new SParam(false, 0.0f, 1.0f);
+		AllParams[SP_BranchB] = new SParam(false, 0.0f, 1.0f);
+		AllParams[SP_LeafR] = new SParam(false, 0.0f, 1.0f);
+		AllParams[SP_LeafG] = new SParam(false, 0.0f, 1.0f);
+		AllParams[SP_LeafB] = new SParam(false, 0.0f, 1.0f);
 		AllParams[SP_LeafSize] = new SParam(false, 0.5f, 2.0f);
 
 		// Initialize variances to 1

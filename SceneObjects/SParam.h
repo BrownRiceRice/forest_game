@@ -7,7 +7,7 @@
 #include <math.h>
 #include <random>
 
-using namespace OVR;
+using namespace ParamWorld;
 
 class SParam
 {
