@@ -45,7 +45,7 @@ class World {
 public:
     void Render(glm::mat4 Perspective, glm::vec3 position, glm::vec3 direction, glm::vec3 up);
     void updateExploredSquares(GLFWwindow *window, glm::vec3 playerPosition, float theta);
-    World(float worldExtent, GLuint matID);
+    World(float worldExtent, GLuint matID, GLuint mmID, GLuint vmID, GLuint lID);
 
 private:
     void AddMoreThings(float x, float z, float horizontalAngle);
@@ -63,7 +63,7 @@ private:
     // The set of all grid spaces that have been explored in this world. Kept at TODO intervals.
     std::unordered_set<Square> exploredSquares;
 
-    GLuint MatrixID;
+    GLuint MatrixID, ModelMatrixID, ViewMatrixID, LightID;
 
     double lastAdded = glfwGetTime();
 

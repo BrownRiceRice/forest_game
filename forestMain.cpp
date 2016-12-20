@@ -77,13 +77,18 @@ int main(void) {
     GLuint programID = LoadShaders("SimpleVertexShader.glsl", "SimpleFragmentShader.glsl");
 
     GLuint MatrixID = glGetUniformLocation(programID, "MVP");
+    GLuint ModelMatrixID = glGetUniformLocation(programID, "M");
+    GLuint ViewMatrixID = glGetUniformLocation(programID, "V");
 
     GLuint VertexArrayID;
     glGenVertexArrays(1, &VertexArrayID);
     glBindVertexArray(VertexArrayID);
 
+    glUseProgram(programID);
+    GLuint LightID = glGetUniformLocation(programID, "LightPosition_worldspace");
+
     //TestCube cube(glm::vec3(-5, 0, 0));
-    World w(299.0, MatrixID);
+    World w(299.0, MatrixID, ModelMatrixID, ViewMatrixID, LightID);
 
     Player player(glm::vec3(0, 1.7, 0));
 

@@ -3,11 +3,14 @@
 
 using namespace ParamWorld;
 
-World::World(float worldExtent, GLuint matID) :
+World::World(float worldExtent, GLuint matID, GLuint mmID, GLuint vmID, GLuint lID) :
         sceneParams(),
         g(Ground(worldExtent)),
         s(SkyObject(300, glm::vec3(0, 0, 0), 300.0f)),
-        MatrixID(matID) {
+        MatrixID(matID),
+        ModelMatrixID(mmID),
+        ViewMatrixID(vmID),
+        LightID (lID) {
     g.init();
     s.init();
 }
@@ -18,6 +21,10 @@ void World::Render(glm::mat4 Perspective, glm::vec3 position, glm::vec3 directio
         glm::mat4 ModelM = it->calcModelMatrix();
         glm::mat4 mvp = Perspective * View * ModelM;
         glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
+        glUniformMatrix4fv(ModelMatrixID, 1, GL_FALSE, &ModelM[0][0]);
+        glUniformMatrix4fv(ViewMatrixID, 1, GL_FALSE, &View[0][0]);
+        glm::vec3 lightPos = glm::vec3(0, 10, 0);
+        glUniform3f(LightID, lightPos[0], lightPos[1], lightPos[2]);
         it->draw();
     }
     glm::mat4 stationaryView = glm::lookAt(glm::vec3(0, position[1], 0), glm::vec3(0, position[1], 0) + direction, up);
