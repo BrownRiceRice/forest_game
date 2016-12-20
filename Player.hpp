@@ -41,7 +41,7 @@ public:
       verticalAngle(0.0f),
       initialFoV(45.0f),
       speed(3.0f),
-      mouseSpeed(0.005f * 100) {}
+      mouseSpeed(0.005f * 10) {}
 
 private:
   double lastTime;

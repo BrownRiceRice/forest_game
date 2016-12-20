@@ -23,10 +23,8 @@ using namespace ParamWorld;
 GLFWwindow *window;
 
 int main(void) {
-#ifdef COMPILE_WITH_PERFORMANCE_TOOLS
-    printf("Showing performance and debug tools. Printing average ms per frame.\n");
-    fflush(stdout);
-#endif
+    int windowWidth = 1024;
+    int windowHeight = 768;
 
     // Initialise GLFW
     if( !glfwInit() ) {
@@ -40,13 +38,13 @@ int main(void) {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // For Mac stuff
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // We want new open GL
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // new OpenGL
 
   	// Open a window and create its OpenGL context
-    window = glfwCreateWindow( 1024, 768, "Playgroud" , NULL, NULL);
+    window = glfwCreateWindow(windowWidth, windowHeight, "Forest" , NULL, NULL);
   	if(window == NULL) {
-	    fprintf( stderr, "Failed to open GLFW window. If you have an Intel GPU, "
-                "they are not 3.3 compatible.\n" );
+	    fprintf( stderr, "Failed to open GLFW window. If you have an Intel GPU,"
+                " they are not 3.3 compatible.\n" );
 		getchar();
 		glfwTerminate();
 		return -1;
@@ -64,7 +62,10 @@ int main(void) {
     }
 
     // Ensure we can capture the escape key being pressed below
-    glfwSetInputMode( window, GLFW_STICKY_KEYS, GL_TRUE );
+    glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+    glfwSetCursorPos(window, windowWidth/2, windowHeight/2);
 
     // Dark blue background
     glClearColor(0.0f, 0.0f, 0.2f, 0.0f);
@@ -82,7 +83,6 @@ int main(void) {
     glGenVertexArrays(1, &VertexArrayID);
     glBindVertexArray(VertexArrayID);
 
-    //TestCube cube(glm::vec3(-5, 0, 0));
     World w(299.0, MatrixID);
 
     Player player(glm::vec3(0, 1.7, 0));
@@ -90,6 +90,8 @@ int main(void) {
     #ifdef COMPILE_WITH_PERFORMANCE_TOOLS
         double lastTime = glfwGetTime();
         int nbFrames = 0;
+        printf("Showing performance and debug tools. Printing average ms per frame.\n");
+        fflush(stdout);
     #endif
 
     do{
@@ -114,18 +116,6 @@ int main(void) {
         glm::mat4 ViewMatrix = player.getViewMatrix();
 
         w.Render(ProjectionMatrix, player.getPosition(), player.getDirection(), player.getUp());
-
-        #ifdef COMPILE_WITH_PERFORMANCE_TOOLS
-            /*glm::vec3 dirFacing(
-                sin(player.horizontalAngle),
-                0,
-                cos(player.horizontalAngle)
-            );*/
-            //glm::vec3 reference = player.getPosition() + dirFacing;
-            //glm::mat4 localRef = glm::translate(10.0f);
-            //glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &localRef);
-            //glEnableVertexAttribArray(0);
-        #endif
 
         // Swap buffers
         glfwSwapBuffers(window);

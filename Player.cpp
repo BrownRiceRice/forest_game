@@ -12,9 +12,14 @@ void Player::computeMatricesFromInputs(GLFWwindow *window) {
     // Compute angles.
     // Start with mouse position
     double xpos, ypos;
-    //glfwGetCursorPos(window, &xpos, &ypos);
-    //glfwSetCursorPos(window, 1024/2, 768/2);
+    glfwGetCursorPos(window, &xpos, &ypos);
+    glfwSetCursorPos(window, 1024/2, 768/2);
 
+    horizontalAngle += mouseSpeed * deltaTime * float(1024/2 - xpos);
+    // -= because I like inverted y-axis stuff
+    verticalAngle += mouseSpeed * deltaTime * float(768/2 - ypos);
+
+    /*
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
         verticalAngle += deltaTime * mouseSpeed;
     }
@@ -27,10 +32,7 @@ void Player::computeMatricesFromInputs(GLFWwindow *window) {
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
         horizontalAngle += deltaTime * mouseSpeed;
     }
-
-    //horizontalAngle += mouseSpeed * deltaTime * float(1024/2 - xpos);
-    // -= because I like inverted y-axis stuff
-    //verticalAngle -= mouseSpeed * deltaTime * float(768/2 - ypos);
+    */
 
     glm::vec3 front(
       sin(horizontalAngle),
