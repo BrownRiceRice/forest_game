@@ -16,6 +16,8 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
+#include <unistd.h>
+
 // TODO: finish adding 2d text on the screen.
 
 using namespace ParamWorld;
@@ -63,8 +65,8 @@ int main(void) {
 
     // Ensure we can capture the escape key being pressed below
     glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
+    glfwSetCursorPos(window, windowWidth/2, windowHeight/2);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
     glfwSetCursorPos(window, windowWidth/2, windowHeight/2);
 
     // Dark blue background

@@ -52,7 +52,6 @@ set(MY_HEADER_FILES
 set(MY_SOURCE_FILES
 	# put all your .c/.cpp here.
     SceneObjects/Model.cpp
-    SceneObjects/SceneObject.cpp
     SceneObjects/TreeObject.cpp
     SceneObjects/RockObject.cpp
     SceneObjects/SkyObject.cpp
@@ -103,7 +102,6 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     message ("You're on Windowns!")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
-
 # Add a checkbox in CMakeGUI :
 
 set(PERFORMANCE_TOOLS ON BOOL "Check this to print out performance data.")
@@ -116,3 +114,5 @@ if(PERFORMANCE_TOOLS)
 		-DCOMPILE_WITH_PERFORMANCE_TOOLS
 	)
 endif(PERFORMANCE_TOOLS)
+
+set(CMAKE_BUILD_TYPE RELEASE)

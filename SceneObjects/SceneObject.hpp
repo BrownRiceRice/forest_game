@@ -16,19 +16,15 @@ public:
 	glm::vec3 rootPosition;
 
     void init() { m.InitBuffer(); }
-	virtual glm::mat4 calcModelMatrix();
+	virtual glm::mat4 calcModelMatrix() {
+        return glm::translate(rootPosition);
+    }
 	void draw() { m.drawBuffer(); };
 	SceneObject(float *params, glm::vec3 rootPos) : params(params),
      rootPosition(rootPos) {}
 
 protected:
     Model m;
-
-};
-
-class TestCube : public SceneObject {
-public:
-	TestCube(glm::vec3 pos);
 };
 
 // A single scene object that should just contain large swaths of a skinny box.

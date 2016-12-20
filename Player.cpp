@@ -4,10 +4,17 @@
 using namespace ParamWorld;
 
 void Player::computeMatricesFromInputs(GLFWwindow *window) {
-    static double lastTime = glfwGetTime();
-
     double currentTime = glfwGetTime();
-
+    if (init) {
+        // Fixes an issues where the mouse would be set to the center, but that
+        // movement would cause a view shift rapidly at the beginning of the
+        // game.
+        if (currentTime - lastTime < .1f) {
+            return;
+        }
+        glfwSetCursorPos(window, 1024/2, 768/2);
+        init = false;
+    }
     float deltaTime = float(currentTime - lastTime);
     // Compute angles.
     // Start with mouse position

@@ -41,7 +41,8 @@ public:
       verticalAngle(0.0f),
       initialFoV(45.0f),
       speed(3.0f),
-      mouseSpeed(0.005f * 10) {}
+      mouseSpeed(0.005f * 10),
+      init(true) {}
 
 private:
   double lastTime;
@@ -57,6 +58,8 @@ private:
   glm::mat4 ViewMatrix;
   glm::vec3 direction;
   glm::vec3 up;
+
+  bool init;
 };
 
 }

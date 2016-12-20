@@ -32,7 +32,7 @@ void Model::InitBuffer() {
     );
 }
 
-void Model::drawBuffer() {
+void Model::drawBuffer() const {
     glEnableVertexAttribArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, _vertexbuffer);
     glVertexAttribPointer(
