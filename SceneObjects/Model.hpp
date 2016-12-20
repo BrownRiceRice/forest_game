@@ -9,6 +9,7 @@
 #include <glm/gtx/quaternion.hpp>
 #include <vector>
 #include "Color.hpp"
+#include "Vertex.hpp"
 
 namespace ParamWorld {
 
@@ -23,18 +24,20 @@ public:
     void AddBoxFromCenter(Color c, glm::vec3 origin, glm::vec3 size);
     void AddTetra(Color color, glm::vec3 top, glm::vec3 l, glm::vec3 r, glm::vec3 b);
     void AddBoxFromCenter(Color c, glm::vec3 center, glm::vec3 size, glm::fquat rotation);
-    //uint16_t AddVertex(float x, float y, float z, const Color& c);
 
     Model() {}
 
 protected:
-    uint16_t AddVertex(float x, float y, float z, const Color& c);
+    unsigned int AddVertex(Vertex v);
+    void AddTriangle(unsigned int a, unsigned int b, unsigned int c);
 
 private:
-    GLuint _vertexbuffer, _colorbuffer, _normalbuffer;
+    GLuint _vertexbuffer, _colorbuffer, _normalbuffer, _elementbuffer;
     std::vector<GLfloat> _vertices;
     std::vector<GLfloat> _colors;
     std::vector<GLfloat> _normals;
+    std::vector<unsigned int> _elements;
+    unsigned int _vertexCount;
 };
 
 }

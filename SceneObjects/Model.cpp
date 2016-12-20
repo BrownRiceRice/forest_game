@@ -1,5 +1,6 @@
 #include "Model.hpp"
 #include <stdio.h>
+#include <iostream>
 
 using namespace ParamWorld;
 
@@ -22,6 +23,7 @@ void Model::InitBuffer() {
       GL_STATIC_DRAW
     );
 
+    /*
     glGenBuffers(1, &_normalbuffer);
     glBindBuffer(GL_ARRAY_BUFFER, _normalbuffer);
     glBufferData(
@@ -30,6 +32,17 @@ void Model::InitBuffer() {
         &_normals[0],
         GL_STATIC_DRAW
     );
+    */
+
+    glGenBuffers(1, &_elementbuffer);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _elementbuffer);
+    glBufferData(
+        GL_ELEMENT_ARRAY_BUFFER,
+        _elements.size() * sizeof(unsigned int),
+        &_elements[0],
+        GL_STATIC_DRAW
+    );
+    std::cout << _elements.size() << std::endl;
 }
 
 void Model::drawBuffer() {
@@ -56,6 +69,7 @@ void Model::drawBuffer() {
     );
 
     // 3rd attribute buffer : normals
+    /*
     glEnableVertexAttribArray(2);
     glBindBuffer(GL_ARRAY_BUFFER, _normalbuffer);
     glVertexAttribPointer(
@@ -66,8 +80,12 @@ void Model::drawBuffer() {
         0,                                // stride
         (void*)0                          // array buffer offset
     );
+    */
 
-    glDrawArrays(GL_TRIANGLES, 0, _vertices.size()/3);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _elementbuffer);
+
+
+    glDrawElements(GL_TRIANGLES, _elements.size(), GL_UNSIGNED_INT, (void *)0);
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
 }
@@ -92,7 +110,41 @@ void Model::AddBoxFromCorner( float x1, float y1, float z1,
         z1 = z2;
         z2 = t;
     }
-    float vs[] = {
+    const uint16_t i = _vertexCount;
+    AddVertex(Vertex(glm::vec3(x1, y1, z1), glm::vec3(0, 0, 0), 0.0f, 0.0f, c));
+    AddVertex(Vertex(glm::vec3(x1, y1, z2), glm::vec3(0, 0, 0), 0.0f, 0.0f, c));
+    AddVertex(Vertex(glm::vec3(x1, y2, z2), glm::vec3(0, 0, 0), 0.0f, 0.0f, c));
+    AddVertex(Vertex(glm::vec3(x1, y2, z1), glm::vec3(0, 0, 0), 0.0f, 0.0f, c));
+    AddVertex(Vertex(glm::vec3(x2, y1, z1), glm::vec3(0, 0, 0), 0.0f, 0.0f, c));
+    AddVertex(Vertex(glm::vec3(x2, y1, z2), glm::vec3(0, 0, 0), 0.0f, 0.0f, c));
+    AddVertex(Vertex(glm::vec3(x2, y2, z2), glm::vec3(0, 0, 0), 0.0f, 0.0f, c));
+    AddVertex(Vertex(glm::vec3(x2, y2, z1), glm::vec3(0, 0, 0), 0.0f, 0.0f, c));
+
+    // Left face.
+    AddTriangle(i + 0, i + 1, i + 2);
+    AddTriangle(i + 2, i + 3, i + 0);
+
+    // Right face.
+    AddTriangle(i + 4, i + 5, i + 6);
+    AddTriangle(i + 6, i + 7, i + 4);
+
+    // Bottom face.
+    AddTriangle(i + 0, i + 1, i + 5);
+    AddTriangle(i + 5, i + 4, i + 0);
+
+    // Top face.
+    AddTriangle(i + 3, i + 2, i + 6);
+    AddTriangle(i + 6, i + 7, i + 3);
+
+    // Back face.
+    AddTriangle(i + 0, i + 3, i + 7);
+    AddTriangle(i + 7, i + 5, i + 0);
+
+    // Front face.
+    AddTriangle(i + 1, i + 2, i + 6);
+    AddTriangle(i + 6, i + 5, i + 1);
+
+    /*float vs[] = {
         x1, y1, z1,
         x1, y1, z2,
         x1, y2, z2,
@@ -129,10 +181,10 @@ void Model::AddBoxFromCorner( float x1, float y1, float z1,
         x2, y2, z2,
         x2, y1, z2,
         x1, y1, z2, // back face end
-    };
+    }; */
 
     //_vertices.insert(_vertices.end(), temp.begin(), temp.end());
-    for (int i = 0; i < 12; i++) { // loop per triangle
+    /*for (int i = 0; i < 12; i++) { // loop per triangle
         // Calculate normal for triangle.
         glm::vec3 one(vs[i], vs[i + 1], vs[i + 2]);
         glm::vec3 two(vs[i + 3], vs[i + 4], vs[i + 5]);
@@ -154,7 +206,7 @@ void Model::AddBoxFromCorner( float x1, float y1, float z1,
             _normals.push_back(n[1]);
             _normals.push_back(n[2]);
         }
-    }
+    } */
     /*
     for (int i = 0; i < 36; i++) {
         _colors.push_back(c.getRed());
@@ -176,6 +228,18 @@ void Model::AddBoxFromCenter(Color c, glm::vec3 origin, glm::vec3 size) {
 }
 
 void Model::AddTetra(Color color, glm::vec3 top, glm::vec3 l, glm::vec3 r, glm::vec3 b) {
+    unsigned int i = _vertexCount;
+    AddVertex(Vertex(top, glm::vec3(0, 0, 0), 0.0f, 0.0f, color));
+    AddVertex(Vertex(l, glm::vec3(0, 0, 0), 0.0f, 0.0f, color));
+    AddVertex(Vertex(r, glm::vec3(0, 0, 0), 0.0f, 0.0f, color));
+    AddVertex(Vertex(b, glm::vec3(0, 0, 0), 0.0f, 0.0f, color));
+
+    AddTriangle(i + 0, i + 1, i + 2);
+    AddTriangle(i + 0, i + 3, i + 1);
+    AddTriangle(i + 0, i + 2, i + 3);
+    AddTriangle(i + 1, i + 3, i + 2);
+
+    /*
     float vs[] = {
         top[0], top[1], top[2],
         l[0], l[1], l[2],
@@ -190,6 +254,8 @@ void Model::AddTetra(Color color, glm::vec3 top, glm::vec3 l, glm::vec3 r, glm::
         b[0], b[1], b[2],
         r[0], r[1], r[2]
     };
+    */
+    /*
     for (int i = 0; i < 4; i++) { // loop per triangle
         // Calculate normal for triangle.
         glm::vec3 one(vs[i], vs[i + 1], vs[i + 2]);
@@ -213,6 +279,7 @@ void Model::AddTetra(Color color, glm::vec3 top, glm::vec3 l, glm::vec3 r, glm::
             _normals.push_back(n[2]);
         }
     }
+    */
     //std::vector<float> temp(verts, verts+(3*12));
     //_vertices.insert(_vertices.end(), temp.begin(), temp.end());
     //for (int i = 0; i < 12; i++) {
@@ -240,6 +307,36 @@ void Model::AddBoxFromCenter(Color c, glm::vec3 center, glm::vec3 size, glm::fqu
         vs.push_back(glm::rotate(rotation, vecsOToPs.at(i)) + o);
     }
 
+    const unsigned int i = _vertexCount;
+    for (auto it = vs.begin(); it != vs.end(); it++) {
+        AddVertex(Vertex(*it, glm::vec3(0, 0, 0), 0.0f, 0.0f, c));
+    }
+
+    // Face 1
+    AddTriangle(i + 3, i + 1, i + 0);
+    AddTriangle(i + 0, i + 2, i + 3);
+
+    // Face 2
+    AddTriangle(i + 6, i + 4, i + 5);
+    AddTriangle(i + 4, i + 7, i + 6);
+
+    // Face 3
+    AddTriangle(i + 6, i + 2, i + 0);
+    AddTriangle(i + 0, i + 4, i + 6);
+
+    // Face 4
+    AddTriangle(i + 7, i + 5, i + 1);
+    AddTriangle(i + 1, i + 3, i + 7);
+
+    // Face 5
+    AddTriangle(i + 3, i + 2, i + 6);
+    AddTriangle(i + 6, i + 7, i + 3);
+
+    // Face 6
+    AddTriangle(i + 0, i + 1, i + 5);
+    AddTriangle(i + 5, i + 4, i + 0);
+
+    /*
     float verts[] = {
         vs[3][0], vs[3][1], vs[3][2],
         vs[1][0], vs[1][1], vs[1][2],
@@ -307,6 +404,7 @@ void Model::AddBoxFromCenter(Color c, glm::vec3 center, glm::vec3 size, glm::fqu
             _normals.push_back(n[2]);
         }
     }
+    */
     /*
     std::vector<float> temp(verts, verts+(3*36));
     _vertices.insert(_vertices.end(), temp.begin(), temp.end());
@@ -318,13 +416,23 @@ void Model::AddBoxFromCenter(Color c, glm::vec3 center, glm::vec3 size, glm::fqu
     */
 }
 
-/*uint16_t Model::AddVertex(float x, float y, float z, const Color& c) {
-    g_vertex_buffer_data.push_back(x);
-    g_vertex_buffer_data.push_back(y);
-    g_vertex_buffer_data.push_back(z);
-    g_color_buffer_data.push_back(c.getRed());
-    g_color_buffer_data.push_back(c.getGreen());
-    g_color_buffer_data.push_back(c.getBlue());
-    // TODO: change
-    return 0;
-} */
+unsigned int Model::AddVertex(Vertex v) {
+    unsigned int toReturn = _vertexCount;
+    _vertexCount += 1;
+    _vertices.push_back(v.pos[0]);
+    _vertices.push_back(v.pos[1]);
+    _vertices.push_back(v.pos[2]);
+    _colors.push_back(v.color.getRed());
+    _colors.push_back(v.color.getGreen());
+    _colors.push_back(v.color.getBlue());
+    //_normals.push_back(v.normal[0]);
+    //_normals.push_back(v.normal[1]);
+    //_normals.push_back(v.normal[2]);
+    return toReturn;
+}
+
+void Model::AddTriangle(unsigned int a, unsigned int b, unsigned int c) {
+    _elements.push_back(a);
+    _elements.push_back(b);
+    _elements.push_back(c);
+}
