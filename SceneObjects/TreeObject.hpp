@@ -30,11 +30,7 @@ namespace ParamWorld {
 			_trunkColor(params[SP_BranchR], params[SP_BranchG], params[SP_BranchB]),
 			_leafSize(params[SP_LeafSize])
 		{
-			for (int i = 0; i < SP_Count; i++) {
-				printf("param[%d]: %f", i, params[i]);
-			}
-			printf("Depth: %d, Height: %f, ", _depth, _height);
-			initModels(root, glm::vec3(_width, _height, _width), _depth,
+			initModels(glm::vec3(0, 0, 0), glm::vec3(_width, _height, _width), _depth,
                     glm::angleAxis(0.0f, glm::vec3(0, 1, 0)));
 		}
 

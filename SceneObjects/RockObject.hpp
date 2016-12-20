@@ -8,6 +8,7 @@
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/transform.hpp>
+#include "Color.hpp"
 #include "SceneObject.hpp"
 
 #define SHADE 0.7f

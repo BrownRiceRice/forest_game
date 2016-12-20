@@ -60,7 +60,6 @@ TestCube::TestCube(glm::vec3 pos) : SceneObject(nullptr, pos) {
             glm::angleAxis((float)(3.14159/4.0), glm::vec3(0.0f, 0.0f, 1.0f)));
 }
 
-
 glm::mat4 SceneObject::calcModelMatrix() {
     return glm::translate(rootPosition);
 }

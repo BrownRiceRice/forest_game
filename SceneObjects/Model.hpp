@@ -34,7 +34,7 @@ private:
     GLuint _vertexbuffer, _colorbuffer, _normalbuffer;
     std::vector<GLfloat> _vertices;
     std::vector<GLfloat> _colors;
-    std::vector<glm::vec3> _normals;
+    std::vector<GLfloat> _normals;
 };
 
 }

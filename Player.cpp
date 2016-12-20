@@ -1,4 +1,5 @@
 #include "Player.hpp"
+#include <iostream>
 
 using namespace ParamWorld;
 
@@ -14,18 +15,17 @@ void Player::computeMatricesFromInputs(GLFWwindow *window) {
     //glfwGetCursorPos(window, &xpos, &ypos);
     //glfwSetCursorPos(window, 1024/2, 768/2);
 
-
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-        verticalAngle += deltaTime * mouseSpeed * 10;
+        verticalAngle += deltaTime * mouseSpeed;
     }
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-        verticalAngle -= deltaTime * mouseSpeed * 10;
+        verticalAngle -= deltaTime * mouseSpeed;
     }
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-        horizontalAngle -= deltaTime * mouseSpeed * 10;
+        horizontalAngle -= deltaTime * mouseSpeed;
     }
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-        horizontalAngle += deltaTime * mouseSpeed * 10;
+        horizontalAngle += deltaTime * mouseSpeed;
     }
 
     //horizontalAngle += mouseSpeed * deltaTime * float(1024/2 - xpos);
@@ -57,15 +57,14 @@ void Player::computeMatricesFromInputs(GLFWwindow *window) {
         position -= right * deltaTime * speed;
     }
 
-    glm::vec3 direction(
+    direction = glm::vec3(
         cos(verticalAngle) * sin(horizontalAngle),
         sin(verticalAngle),
         cos(verticalAngle) * cos(horizontalAngle)
     );
 
-    glm::vec3 up = glm::cross(right, direction);
+    up = glm::cross(right, direction);
 
-    ProjectionMatrix = glm::perspective(initialFoV, 4.0f/3.0f, 0.1f, 100.0f);
     ViewMatrix = glm::lookAt(position, position + direction, up);
 
     lastTime = currentTime;

@@ -16,7 +16,7 @@ public:
 	glm::vec3 rootPosition;
 
     void init() { m.InitBuffer(); }
-	glm::mat4 calcModelMatrix();
+	virtual glm::mat4 calcModelMatrix();
 	void draw() { m.drawBuffer(); };
 	SceneObject(float *params, glm::vec3 rootPos) : params(params),
      rootPosition(rootPos) {}
@@ -41,7 +41,7 @@ public:
     }
 
 private:
-    const Color groundColor = Color(0.04f, 0.027f, 0.0157f);
+    const Color groundColor = Color(0.05f, 0.037f, 0.257f);
 };
 }
 

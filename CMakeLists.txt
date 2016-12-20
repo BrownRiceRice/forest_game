@@ -9,6 +9,7 @@ project (ForestMacPort)
 find_package(PkgConfig REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(glfw3 3.2 REQUIRED)
+find_package(freetype REQUIRED)
 
 # In order to build GLFW on Mac, you need to include these libraries.
 # See http://www.glfw.org/docs/3.0/build.html#build_link_xcode
@@ -44,6 +45,7 @@ set(MY_HEADER_FILES
     SceneObjects/Model.hpp
     SceneObjects/TreeObject.hpp
     SceneObjects/RockObject.hpp
+    SceneObjects/SkyObject.hpp
     World.hpp
 )
 
@@ -53,6 +55,7 @@ set(MY_SOURCE_FILES
     SceneObjects/SceneObject.cpp
     SceneObjects/TreeObject.cpp
     SceneObjects/RockObject.cpp
+    SceneObjects/SkyObject.cpp
     shader.cpp
     Player.cpp
     World.cpp
@@ -67,6 +70,7 @@ include_directories(
 	${GLFW_INCLUDE_PATH}
 	${GLEW_INCLUDE_PATH}
 	${GLM_INCLUDE_PATH}
+    ${FREETYPE_INCLUDE_DIRS}
 )
 add_executable(Forest
 	${MY_HEADER_FILES}
@@ -79,6 +83,7 @@ target_link_libraries(Forest
 	${OPENGL_LIBRARY} # filled by "find_package(OpenGL REQUIRED)"
 	${GLFW_LIBRARY}
 	${GLEW_LIBRARY}
+    ${FREETYPE_LIBS}
     ${EXTRA_LIBS}
 )
 

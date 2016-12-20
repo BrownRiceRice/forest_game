@@ -17,7 +17,7 @@ TreeObject::TreeObject(glm::vec3 root, int depth, float height, float width,
 	_trunkColor(trunkColor),
 	_leafSize(leafSize)
 {
-	initModels(root, glm::vec3(width, height, width), depth, glm::fquat(1.0, 0.0, 0.0, 0.0));
+	initModels(glm::vec3(0, 0, 0), glm::vec3(width, height, width), depth, glm::fquat(1.0, 0.0, 0.0, 0.0));
 }
 
 void TreeObject::initModels(glm::vec3 root, glm::vec3 dims, int depth, glm::fquat rotation) {

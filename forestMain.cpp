@@ -13,12 +13,16 @@
 #include "SceneObjects/SceneObject.hpp"
 #include "World.hpp"
 
+#include <ft2build.h>
+#include FT_FREETYPE_H
+
+// TODO: finish adding 2d text on the screen.
+
 using namespace ParamWorld;
 
 GLFWwindow *window;
 
-int main( void )
-{
+int main(void) {
 #ifdef COMPILE_WITH_PERFORMANCE_TOOLS
     printf("Showing performance and debug tools. Printing average ms per frame.\n");
     fflush(stdout);
@@ -59,7 +63,6 @@ int main( void )
 	    return -1;
     }
 
-
     // Ensure we can capture the escape key being pressed below
     glfwSetInputMode( window, GLFW_STICKY_KEYS, GL_TRUE );
 
@@ -80,9 +83,9 @@ int main( void )
     glBindVertexArray(VertexArrayID);
 
     //TestCube cube(glm::vec3(-5, 0, 0));
-    World w(800.0, MatrixID);
+    World w(299.0, MatrixID);
 
-    Player player(glm::vec3(0, 1.7, 5));
+    Player player(glm::vec3(0, 1.7, 0));
 
     #ifdef COMPILE_WITH_PERFORMANCE_TOOLS
         double lastTime = glfwGetTime();
@@ -90,7 +93,6 @@ int main( void )
     #endif
 
     do{
-
         // Measure speed
         #ifdef COMPILE_WITH_PERFORMANCE_TOOLS
             double currentTime = glfwGetTime();
@@ -107,12 +109,23 @@ int main( void )
         glUseProgram(programID);
 
         player.computeMatricesFromInputs(window);
-        w.updateExploredSquares(player.position, player.horizontalAngle);
+        w.updateExploredSquares(window, player.getPosition(), player.horizontalAngle);
         glm::mat4 ProjectionMatrix = player.getProjectionMatrix();
         glm::mat4 ViewMatrix = player.getViewMatrix();
-        glm::mat4 PVMatrix = ProjectionMatrix * ViewMatrix;
 
-        w.Render(ProjectionMatrix, ViewMatrix);
+        w.Render(ProjectionMatrix, player.getPosition(), player.getDirection(), player.getUp());
+
+        #ifdef COMPILE_WITH_PERFORMANCE_TOOLS
+            /*glm::vec3 dirFacing(
+                sin(player.horizontalAngle),
+                0,
+                cos(player.horizontalAngle)
+            );*/
+            //glm::vec3 reference = player.getPosition() + dirFacing;
+            //glm::mat4 localRef = glm::translate(10.0f);
+            //glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &localRef);
+            //glEnableVertexAttribArray(0);
+        #endif
 
         // Swap buffers
         glfwSwapBuffers(window);
