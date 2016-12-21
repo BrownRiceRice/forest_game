@@ -6,11 +6,12 @@ world is created based on what you showed preference for before.
 Forest is a port of a hackathon project I did on the Oculus
 (https://github.com/BrownRiceRice/oculus-hackrice16).
 
-
 ## TODOs:
 
 * Finish README and start issues to track rest of the things on github
 * Enhance
+  * [ ] Include Rocks in the randomly generated things.
+  * [x] Start the models off very small and make them bigger.
   * [ ] [Add shading](http://www.opengl-tutorial.org/beginners-tutorials/tutorial-8-basic-shading/)
     * [ ] Add normal information per vertex
   * [ ] Add a title screen, and fade to the initial scene.
