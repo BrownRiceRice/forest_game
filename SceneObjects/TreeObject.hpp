@@ -23,7 +23,7 @@ namespace ParamWorld {
                 float scale, float angle, Color leafColor, Color trunkColor, float leafSize);
 
 		TreeObject(glm::vec3 root, float *params) :
-			SceneObject(params, root),
+			SceneObject(params, root, new Logistic(glfwGetTime() + 6.0, 1.0)),
 			_depth((int)params[SP_Depth]), _height(params[SP_Height]), _width(params[SP_Width]),
 			_scale(params[SP_Scale]), _splitAngle(params[SP_SplitAngle]),
 			_leafColor(params[SP_LeafR], params[SP_LeafG], params[SP_LeafB]),

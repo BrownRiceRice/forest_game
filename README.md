@@ -11,7 +11,7 @@ Forest is a port of a hackathon project I did on the Oculus
 * Finish README and start issues to track rest of the things on github
 * Enhance
   * [ ] Include Rocks in the randomly generated things.
-  * [ ] Start the models off very small and make them bigger.
+  * [x] Start the models off very small and make them bigger.
   * [ ] [Add shading](http://www.opengl-tutorial.org/beginners-tutorials/tutorial-8-basic-shading/)
     * [ ] Add normal information per vertex
   * [ ] Add a title screen, and fade to the initial scene.

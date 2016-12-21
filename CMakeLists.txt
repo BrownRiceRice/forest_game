@@ -26,10 +26,10 @@ ENDIF (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 # On mac, installing via brew did not work, must install from the source.
 # (that created the libglfw3.a).
 set(GLFW_INCLUDE_PATH "/usr/local/include/" CACHE PATH "Directory containing GL/glfw.h" )
-set(GLFW_LIBRARY "/usr/local/lib/libglfw3.a" CACHE FILEPATH "libglfw.a or glfw.lib" )
+set(GLFW_LIBRARY "/usr/local/lib/libglfw3.a" CACHE FILEPATH "libglfw.a" )
 
 set(GLEW_INCLUDE_PATH "/usr/local/Cellar/glew/2.0.0/include" CACHE PATH "Directory containing GL/glew.h" )
-set(GLEW_LIBRARY "/usr/local/Cellar/glew/2.0.0/lib/libGLEW.a" CACHE FILEPATH "libglew.a or glew.lib" )
+set(GLEW_LIBRARY "/usr/local/Cellar/glew/2.0.0/lib/libGLEW.a" CACHE FILEPATH "libglew.a" )
 
 set(GLM_INCLUDE_PATH "/usr/local/Cellar/glm/0.9.8.3/include" CACHE PATH "Directory containing glm/glm.hpp" )
 
@@ -89,9 +89,6 @@ target_link_libraries(Forest
 configure_file(${VERTEX_SHADER} ${VERTEX_SHADER} COPYONLY)
 configure_file(${FRAGMENT_SHADER} ${FRAGMENT_SHADER} COPYONLY)
 
-
-# HOW-TO. You can safely remove anything below.
-
 # test if linux, mac or windows :
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
@@ -103,11 +100,9 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 # Add a checkbox in CMakeGUI :
-
 set(PERFORMANCE_TOOLS ON BOOL "Check this to print out performance data.")
 
 # Add a preprocessor define :
-
 if(PERFORMANCE_TOOLS)
     message("Compiling with performance tools...")
 	add_definitions(

@@ -14,8 +14,7 @@
 #include <cmath>
 
 #define MATH_FLOAT_PI 3.1415926f
-
-using namespace ParamWorld;
+namespace ParamWorld {
 
 class SceneParams
 {
@@ -259,5 +258,6 @@ public:
 
 	~SceneParams() {};
 };
+}
 
 #endif // SceneParams_h

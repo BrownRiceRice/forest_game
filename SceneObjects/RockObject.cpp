@@ -6,7 +6,7 @@ using namespace ParamWorld;
 // Forcing it to be on the ground.
 RockObject::RockObject(int depth, Color color, glm::vec3 root,
         glm::vec2 a, glm::vec2 b, glm::vec2 c, float heightMult) :
-        SceneObject(nullptr, root),
+        SceneObject(nullptr, root, new Linear(glfwGetTime(), glfwGetTime() + 5.0)),
         _depth(depth),
         _color1(color),
 	    _color2(color.shiftUp(SHADE)),
