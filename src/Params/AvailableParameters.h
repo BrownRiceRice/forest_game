@@ -2,8 +2,7 @@
 #define AvailableParameters_h
 
 namespace ParamWorld {
-	enum AvailableParameters
-	{
+	enum AvailableParameters {
 		// Colors
 		SP_Red,
 		SP_Green,
