@@ -33,11 +33,16 @@ set(GLEW_LIBRARY "/usr/local/Cellar/glew/2.0.0/lib/libGLEW.a" CACHE FILEPATH "li
 
 set(GLM_INCLUDE_PATH "/usr/local/Cellar/glm/0.9.8.3/include" CACHE PATH "Directory containing glm/glm.hpp" )
 
-# Build the actual code.
-add_subdirectory(src)
+include_directories(
+    ${PROJECT_SOURCE_DIR}/include
+    ${PROJECT_BINARY_DIR}/include
+	${GLFW_INCLUDE_PATH}
+	${GLEW_INCLUDE_PATH}
+	${GLM_INCLUDE_PATH}
+    ${FREETYPE_INCLUDE_DIRS}
+)
 
 # test if linux, mac or windows :
-
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 	message("You're on Mac OS !")
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
@@ -58,6 +63,9 @@ if(PERFORMANCE_TOOLS)
 endif(PERFORMANCE_TOOLS)
 
 set(CMAKE_BUILD_TYPE RELEASE)
+
+# Build the actual code.
+add_subdirectory(src)
 
 enable_testing()
 

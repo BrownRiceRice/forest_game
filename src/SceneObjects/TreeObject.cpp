@@ -1,4 +1,4 @@
-#include "TreeObject.hpp"
+#include "SceneObjects/TreeObject.hpp"
 
 #define HALF_PI ((float) 3.1415926/2.0f)
 

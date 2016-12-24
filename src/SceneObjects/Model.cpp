@@ -1,4 +1,4 @@
-#include "Model.hpp"
+#include "SceneObjects/Model.hpp"
 #include <stdio.h>
 
 using namespace ParamWorld;

@@ -1,20 +1,4 @@
 
-set(MY_HEADER_FILES
-	# put all your .h here. Right now we have none.
-	# Example :
-    Params/SceneParams.h
-    Params/SParam.hpp
-    Params/AvailableParameters.h
-	shader.hpp
-    Player.hpp
-    SceneObjects/SceneObject.hpp
-    SceneObjects/Model.hpp
-    SceneObjects/TreeObject.hpp
-    SceneObjects/RockObject.hpp
-    SceneObjects/SkyObject.hpp
-    World.hpp
-)
-
 set(MY_SOURCE_FILES
 	# put all your .c/.cpp here.
     Params/SParam.cpp
@@ -32,13 +16,6 @@ set(APPLICATION_MAIN forestMain.cpp)
 
 set (VERTEX_SHADER SimpleVertexShader.glsl)
 set (FRAGMENT_SHADER SimpleFragmentShader.glsl)
-
-include_directories(
-	${GLFW_INCLUDE_PATH}
-	${GLEW_INCLUDE_PATH}
-	${GLM_INCLUDE_PATH}
-    ${FREETYPE_INCLUDE_DIRS}
-)
 
 add_library(Forest_Lib
     ${MY_HEADER_FILES}

@@ -1,4 +1,4 @@
-#include "SceneParams.h"
+#include "Params/SceneParams.h"
 
 
 using namespace ParamWorld;

@@ -1,4 +1,4 @@
-#include "SParam.hpp"
+#include "Params/SParam.hpp"
 
 using namespace ParamWorld;
 

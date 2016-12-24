@@ -1,4 +1,4 @@
-#include "SkyObject.hpp"
+#include "SceneObjects/SkyObject.hpp"
 #include <iostream>
 
 #define MATH_FLOAT_PI 3.1415926f

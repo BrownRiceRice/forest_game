@@ -1,4 +1,4 @@
-#include "RockObject.hpp"
+#include "SceneObjects/RockObject.hpp"
 #include <stdio.h>
 
 using namespace ParamWorld;
