@@ -58,3 +58,7 @@ if(PERFORMANCE_TOOLS)
 endif(PERFORMANCE_TOOLS)
 
 set(CMAKE_BUILD_TYPE RELEASE)
+
+enable_testing()
+
+add_subdirectory(test)
