@@ -3,7 +3,7 @@ set(MY_HEADER_FILES
 	# put all your .h here. Right now we have none.
 	# Example :
     Params/SceneParams.h
-    Params/SParam.h
+    Params/SParam.hpp
     Params/AvailableParameters.h
 	shader.hpp
     Player.hpp
@@ -17,6 +17,8 @@ set(MY_HEADER_FILES
 
 set(MY_SOURCE_FILES
 	# put all your .c/.cpp here.
+    Params/SParam.cpp
+    Params/SceneParams.cpp
     SceneObjects/Model.cpp
     SceneObjects/TreeObject.cpp
     SceneObjects/RockObject.cpp
