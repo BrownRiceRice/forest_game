@@ -42,15 +42,6 @@ include_directories(
     ${FREETYPE_INCLUDE_DIRS}
 )
 
-# test if linux, mac or windows :
-if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-	message("You're on Mac OS !")
-elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-	message("You're on Linux !")
-elseif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-    message ("You're on Windowns!")
-endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-
 # Add a checkbox in CMakeGUI :
 set(PERFORMANCE_TOOLS ON BOOL "Check this to print out performance data.")
 

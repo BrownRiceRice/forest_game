@@ -21,3 +21,7 @@ Forest is a port of a hackathon project I did on the Oculus
   * [ ] Switch to [VBO Indexing](http://www.opengl-tutorial.org/intermediate-tutorials/tutorial-9-vbo-indexing/)
   * [ ] Add toggled [FPS counter](http://www.opengl-tutorial.org/miscellaneous/an-fps-counter/)
   * [ ] Use key callbacks instead of checking each loop.
+* Improve Code Health
+  * [ ] Move all (or most) implementation out of .h files.
+  * [ ] Add tests for existing code.
+  * [ ] Refactor Params code to be more c++ friendly.

@@ -78,6 +78,58 @@ void SceneParams::updateVariance(float *sp) {
 	vectDivScalar(onlineM2, nSavedChoices - 1, paramVariances);
 }
 
+void SceneParams::resetVariability() {
+	for (int i = 0; i < SP_Count; i++) {
+		paramVariances[i] = maximumVariance;
+	}
+	learningRate = learningMaximum;
+}
+
+void SceneParams::vectMinus(float *v1, float *v2, float *diff) {
+	for (int i = 0; i < SP_Count; i++) {
+		diff[i] = v1[i] - v2[i];
+	}
+}
+
+void SceneParams::vectAdd(float *v1, float *v2, float *sum) {
+	for (int i = 0; i < SP_Count; i++)
+	{
+		sum[i] = v1[i] + v2[i];
+	}
+}
+
+void SceneParams::vectProd(float *v1, float *v2, float *prod) {
+	for (int i = 0; i < SP_Count; i++) {
+		prod[i] = v1[i] * v2[i];
+	}
+}
+
+void SceneParams::vectProdScalar(float *v1, float c, float *prod) {
+	for (int i = 0; i < SP_Count; i++) {
+		prod[i] = v1[i] * c;
+	}
+}
+
+void SceneParams::vectDiv(float *v1, float *v2, float *quot) {
+	for (int i = 0; i < SP_Count; i++) {
+		quot[i] = v1[i] / v2[i];
+	}
+}
+
+void SceneParams::vectDivScalar(float *v1, float c, float *quot) {
+	for (int i = 0; i < SP_Count; i++) {
+	    quot[i] = v1[i] / c;
+	}
+}
+
+float SceneParams::l2_norm(float *v) {
+	float sum = 0.0f;
+	for (int i = 0; i < SP_Count; i++) {
+		sum += v[i] * v[i];
+	}
+	return sqrt(sum);
+}
+
 SceneParams::SceneParams() {
 	randomGenerator.seed(((unsigned int)time(NULL)));
 	// Colors

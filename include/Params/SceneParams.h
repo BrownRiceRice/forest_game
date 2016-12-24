@@ -64,81 +64,23 @@ public:
 	void updateVariance(float *sp);
 
 	// Reset variance to highest possible level
-	void resetVariability()
-	{
-		for (int i = 0; i < SP_Count; i++)
-		{
-			paramVariances[i] = maximumVariance;
-		}
-		learningRate = learningMaximum;
-	}
+	void resetVariability();
 
 	/*
 	* Mathematical functions
 	*/
-	void vectMinus(float *v1, float *v2, float *diff)
-	{
-		for (int i = 0; i < SP_Count; i++)
-		{
-			diff[i] = v1[i] - v2[i];
-		}
-	}
-
-	void vectAdd(float *v1, float *v2, float *sum)
-	{
-		for (int i = 0; i < SP_Count; i++)
-		{
-			sum[i] = v1[i] + v2[i];
-		}
-	}
-
-	void vectProd(float *v1, float *v2, float *prod)
-	{
-		for (int i = 0; i < SP_Count; i++)
-		{
-			prod[i] = v1[i] * v2[i];
-		}
-	}
-
-	void vectProdScalar(float *v1, float c, float *prod)
-	{
-		for (int i = 0; i < SP_Count; i++)
-		{
-			prod[i] = v1[i] * c;
-		}
-	}
-
-	void vectDiv(float *v1, float *v2, float *quot)
-	{
-		for (int i = 0; i < SP_Count; i++)
-		{
-			quot[i] = v1[i] / v2[i];
-		}
-	}
-
-	void vectDivScalar(float *v1, float c, float *quot)
-	{
-		for (int i = 0; i < SP_Count; i++)
-		{
-			quot[i] = v1[i] / c;
-		}
-	}
-
-	float l2_norm(float *v)
-	{
-		float sum = 0;
-		for (int i = 0; i < SP_Count; i++)
-		{
-			sum += v[i] * v[i];
-		}
-		return sqrt(sum);
-	}
+	void vectMinus(float *v1, float *v2, float *diff);
+	void vectAdd(float *v1, float *v2, float *sum);
+	void vectProd(float *v1, float *v2, float *prod);
+	void vectProdScalar(float *v1, float c, float *prod);
+	void vectDiv(float *v1, float *v2, float *quot);
+	void vectDivScalar(float *v1, float c, float *quot);
+	float l2_norm(float *v);
 
 	/*
 	* Constructor and Destructor
 	*/
 	SceneParams();
-
 	~SceneParams();
 };
 }
