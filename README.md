@@ -24,4 +24,4 @@ Forest is a port of a hackathon project I did on the Oculus
 * Improve Code Health
   * [ ] Move all (or most) implementation out of .h files.
   * [ ] Add tests for existing code.
-  * [ ] Refactor Params code to be more c++ friendly.
+  * [x] Refactor Params code to be more c++ friendly.
