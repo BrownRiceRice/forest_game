@@ -81,6 +81,7 @@ public:
 	* Constructor and Destructor
 	*/
 	SceneParams();
+    SceneParams(unsigned int seed);
 	~SceneParams();
 };
 }

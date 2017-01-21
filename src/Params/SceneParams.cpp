@@ -1,5 +1,5 @@
 #include "Params/SceneParams.h"
-
+#include <iostream>
 
 using namespace ParamWorld;
 
@@ -63,11 +63,6 @@ void SceneParams::changeVariability(float modifier) {
 void SceneParams::updateVariance(float *sp) {
 	nSavedChoices += 1;
 
-	// For too few data points, no real variance
-	if (nSavedChoices < 2) {
-		return;
-	}
-
 	// Welford Algorithm
 	vectMinus(sp, onlineMean, onlineDelta);
 	vectDivScalar(onlineDelta, nSavedChoices, onlineDeltaN);
@@ -75,6 +70,12 @@ void SceneParams::updateVariance(float *sp) {
 	vectMinus(sp, onlineMean, onlineDelta2);
 	vectProd(onlineDelta, onlineDelta2, onlineM2Right);
 	vectAdd(onlineM2, onlineM2Right, onlineM2);
+
+    // For too few data points, no real variance
+    if (nSavedChoices < 2) {
+        return;
+    }
+
 	vectDivScalar(onlineM2, nSavedChoices - 1, paramVariances);
 }
 
@@ -130,7 +131,9 @@ float SceneParams::l2_norm(float *v) {
 	return sqrt(sum);
 }
 
-SceneParams::SceneParams() {
+SceneParams::SceneParams() : SceneParams((unsigned int) time(NULL)) {}
+
+SceneParams::SceneParams(unsigned int seed) {
 	randomGenerator.seed(((unsigned int)time(NULL)));
 	// Colors
 	AllParams[SP_Red] = new SParam(false, 0.0f, 1.0f);
