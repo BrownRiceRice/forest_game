@@ -9,6 +9,7 @@ class ParamArray{
 public:
 
     ParamArray();
+    ParamArray(float repeatElement);
     ParamArray<D> operator+(ParamArray<D> a) const;
     ParamArray<D> operator-(ParamArray<D> a) const;
     ParamArray<D> multiplyElement(ParamArray<D> a) const;
@@ -27,6 +28,13 @@ private:
 
 template <int D>
 ParamArray<D>::ParamArray() {}
+
+template <int D>
+ParamArray<D>::ParamArray(float repeatElement) {
+    for (int i = 0; i < D; i++) {
+        params[i] = repeatElement;
+    }
+}
 
 template <int D>
 ParamArray<D> ParamArray<D>::operator+(ParamArray<D> a) const {

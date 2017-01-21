@@ -1,5 +1,6 @@
 #include "Params/SceneParams.h"
 #include "Params/ParamArray.hpp"
+#include <iostream>
 
 using namespace ParamWorld;
 
@@ -23,10 +24,8 @@ void SceneParams::moveMeans(ParamArray<SP_Count> sp, bool towards) {
 	updateVariance(sp);
 
 	// Calculate z-Scores
-	//float *diffs = (float *)malloc(SP_Count * sizeof(float));
-	//float *zScores = (float *)malloc(SP_Count * sizeof(float));
-    ParamArray<SP_Count> diffs = sp - paramMeans; // vectMinus(sp, paramMeans, diffs);
-	ParamArray<SP_Count> zScores = diffs - paramVariances; // vectDiv(diffs, paramVariances, zScores);
+    ParamArray<SP_Count> diffs = sp - paramMeans;
+	ParamArray<SP_Count> zScores = diffs.divideElement(paramVariances);
 
 	// Map zScores => max(1, abs(zScores))
 	for (int i = 0; i < SP_Count; i++) {
@@ -44,11 +43,11 @@ void SceneParams::moveMeans(ParamArray<SP_Count> sp, bool towards) {
 	//vectProd(zScores, paramVariances, paramVariances);
 
 	// Move mean toward vector, also reuse zScores
-	diffs = diffs * learningRate; // diffsvectProdScalar(diffs, learningRate, diffs);
+	diffs = diffs * learningRate;
 	if (towards) {
-		paramMeans = paramMeans - diffs; // vectAdd(paramMeans, diffs, paramMeans);
+		paramMeans = paramMeans + diffs;
 	} else {
-		paramMeans = paramMeans - diffs; // vectMinus(paramMeans, diffs, paramMeans);
+		paramMeans = paramMeans - diffs;
 	}
 
 	// Update learning rates
@@ -57,26 +56,24 @@ void SceneParams::moveMeans(ParamArray<SP_Count> sp, bool towards) {
 
 void SceneParams::changeVariability(float modifier) {
     paramVariances = paramVariances * modifier;
-	//vectProdScalar(paramVariances, modifier, paramVariances);
 	learningRate = std::max(std::min(learningRate * modifier, learningMaximum), learningMinimum);
 }
 
 void SceneParams::updateVariance(ParamArray<SP_Count> sp) {
 	nSavedChoices += 1;
 
-	// For too few data points, no real variance
-	if (nSavedChoices < 2) {
-		return;
-	}
-
 	// Welford Algorithm
-    onlineDelta = sp - onlineMean; // vectMinus(sp, onlineMean, onlineDelta);
-    onlineDeltaN = onlineDelta / nSavedChoices; // vectDivScalar(onlineDelta, nSavedChoices, onlineDeltaN);
-    onlineMean = onlineMean + onlineDeltaN; // vectAdd(onlineMean, onlineDeltaN, onlineMean);
-	onlineDelta2 = sp - onlineMean; // vectMinus(sp, onlineMean, onlineDelta2);
-	onlineM2Right = onlineDelta.multiplyElement(onlineDelta2); // vectProd(onlineDelta, onlineDelta2, onlineM2Right);
-	onlineM2 = onlineM2 + onlineM2Right; // vectAdd(onlineM2, onlineM2Right, onlineM2);
-	paramVariances = onlineM2 / (nSavedChoices - 1); // vectDivScalar(onlineM2, nSavedChoices - 1, paramVariances);
+    auto onlineDelta = sp - onlineMean;
+    onlineMean = onlineMean + (onlineDelta / nSavedChoices);
+	auto onlineDelta2 = sp - onlineMean;
+	onlineM2 = onlineM2 + (onlineDelta.multipleElement(onlineDelta2);
+
+    // For too few data points, no real variance
+    if (nSavedChoices < 2) {
+        return;
+    }
+
+	paramVariances = onlineM2 / (nSavedChoices - 1);
 }
 
 void SceneParams::resetVariability() {
@@ -86,52 +83,9 @@ void SceneParams::resetVariability() {
 	learningRate = learningMaximum;
 }
 
-void SceneParams::vectMinus(float *v1, float *v2, float *diff) {
-	for (int i = 0; i < SP_Count; i++) {
-		diff[i] = v1[i] - v2[i];
-	}
-}
+SceneParams::SceneParams() : SceneParams((unsigned int) time(NULL)) {}
 
-void SceneParams::vectAdd(float *v1, float *v2, float *sum) {
-	for (int i = 0; i < SP_Count; i++)
-	{
-		sum[i] = v1[i] + v2[i];
-	}
-}
-
-void SceneParams::vectProd(float *v1, float *v2, float *prod) {
-	for (int i = 0; i < SP_Count; i++) {
-		prod[i] = v1[i] * v2[i];
-	}
-}
-
-void SceneParams::vectProdScalar(float *v1, float c, float *prod) {
-	for (int i = 0; i < SP_Count; i++) {
-		prod[i] = v1[i] * c;
-	}
-}
-
-void SceneParams::vectDiv(float *v1, float *v2, float *quot) {
-	for (int i = 0; i < SP_Count; i++) {
-		quot[i] = v1[i] / v2[i];
-	}
-}
-
-void SceneParams::vectDivScalar(float *v1, float c, float *quot) {
-	for (int i = 0; i < SP_Count; i++) {
-	    quot[i] = v1[i] / c;
-	}
-}
-
-float SceneParams::l2_norm(float *v) {
-	float sum = 0.0f;
-	for (int i = 0; i < SP_Count; i++) {
-		sum += v[i] * v[i];
-	}
-	return sqrt(sum);
-}
-
-SceneParams::SceneParams() {
+SceneParams::SceneParams(unsigned int seed) {
 	randomGenerator.seed(((unsigned int)time(NULL)));
 	// Colors
 	AllParams[SP_Red] = new SParam(false, 0.0f, 1.0f);
@@ -153,17 +107,8 @@ SceneParams::SceneParams() {
 	AllParams[SP_LeafSize] = new SParam(false, 0.5f, 2.0f);
 
 	// Initialize variances to 1
-	for (int i = 0; i < SP_Count; i++)
-	{
-		paramVariances[i] = 1.0f;
+	for (int i = 0; i < SP_Count; i++) {
 		paramMeans[i] = AllParams[i]->generateUniform(static_cast <float> (rand()) / static_cast <float> (RAND_MAX));//unitUniformDistribution(randomGenerator));
-		//nSavedChoices = 0.0f;
-		onlineDelta[i] = 0.0f;
-		onlineDeltaN[i] = 0.0f;
-		onlineMean[i] = 0.0f;
-		onlineDelta2[i] = 0.0f;
-		onlineM2Right[i] = 0.0f;
-		onlineM2[i] = 0.0f;
 	}
 }
 
