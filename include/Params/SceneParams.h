@@ -30,12 +30,8 @@ public:
 
 	// Variance calculation, online
 	float nSavedChoices = 0.0f;
-	ParamArray<SP_Count> onlineDelta;
-	ParamArray<SP_Count> onlineDeltaN;
-	ParamArray<SP_Count> onlineMean;
-	ParamArray<SP_Count> onlineDelta2;
-	ParamArray<SP_Count> onlineM2Right;
-	ParamArray<SP_Count> onlineM2;
+	ParamArray<SP_Count> onlineMean = ParamArray<SP_Count>(0.0f);
+	ParamArray<SP_Count> onlineM2  = ParamArray<SP_Count>(0.0f);
 
 	// Random number generators
 	std::default_random_engine randomGenerator;
@@ -47,7 +43,7 @@ public:
 
 	// The current global "mean" parameter vector
 	ParamArray<SP_Count> paramMeans;
-	ParamArray<SP_Count> paramVariances;
+	ParamArray<SP_Count> paramVariances = ParamArray<SP_Count>(1.0f);
 
 	// deviance is a multiplier applied to the variance of each parameter
 	ParamArray<SP_Count> generate(float deviance);
@@ -68,20 +64,10 @@ public:
 	void resetVariability();
 
 	/*
-	* Mathematical functions
-	*/
-	void vectMinus(float *v1, float *v2, float *diff);
-	void vectAdd(float *v1, float *v2, float *sum);
-	void vectProd(float *v1, float *v2, float *prod);
-	void vectProdScalar(float *v1, float c, float *prod);
-	void vectDiv(float *v1, float *v2, float *quot);
-	void vectDivScalar(float *v1, float c, float *quot);
-	float l2_norm(float *v);
-
-	/*
 	* Constructor and Destructor
 	*/
 	SceneParams();
+    SceneParams(unsigned int seed);
 	~SceneParams();
 };
 }
