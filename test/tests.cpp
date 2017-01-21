@@ -1,6 +1,7 @@
 #include "catch.hpp"
 #include "Params/SceneParams.h"
 #include "Params/AvailableParameters.h"
+#include "Params/ParamArray.hpp"
 
 using namespace ParamWorld;
 TEST_CASE( "Vectors (float arrays) can work with arthmetic", "[SceneParams]" ) {
@@ -70,5 +71,13 @@ TEST_CASE( "Vectors (float arrays) can work with arthmetic", "[SceneParams]" ) {
         for (int i = 0; i < SP_Count; i++) {
             REQUIRE( prod[i] == i * 2.0f);
         }
+    }
+}
+
+TEST_CASE("Better Param Arrays can use arithmetic", "[ParamArray]") {
+    ParamArray<5> a;
+
+    SECTION("Accessing the first element of a") {
+        a[0];
     }
 }

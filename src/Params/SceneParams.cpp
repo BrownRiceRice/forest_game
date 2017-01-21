@@ -1,25 +1,25 @@
 #include "Params/SceneParams.h"
-
+#include "Params/ParamArray.hpp"
 
 using namespace ParamWorld;
 
-float *SceneParams::generate(float deviance) {
-	float *newVec = (float *)malloc(SP_Count * sizeof(float));
+ParamArray<SP_Count> SceneParams::generate(float deviance) {
+	ParamArray<SP_Count> newVec;
 	for (int i = 0; i < SP_Count; i++) {
 		newVec[i] = AllParams[i]->generateGaussian(paramMeans[i], paramVariances[i] * deviance, unitNormalDistribution);
 	}
 	return newVec;
 }
 
-float *SceneParams::randomSP() {
-	float *newVec = (float *)malloc(SP_Count * sizeof(float));
+ParamArray<SP_Count> SceneParams::randomSP() {
+	ParamArray<SP_Count> newVec;
 	for (int i = 0; i < SP_Count; i++) {
 		newVec[i] = AllParams[i]->generateUniform(unitUniformDistribution(randomGenerator));
 	}
 	return newVec;
 }
 
-void SceneParams::moveMeans(float *sp, bool towards) {
+void SceneParams::moveMeans(ParamArray<SP_Count> sp, bool towards) {
 	updateVariance(sp);
 
 	// Calculate z-Scores
@@ -60,7 +60,7 @@ void SceneParams::changeVariability(float modifier) {
 	learningRate = std::max(std::min(learningRate * modifier, learningMaximum), learningMinimum);
 }
 
-void SceneParams::updateVariance(float *sp) {
+void SceneParams::updateVariance(ParamArray<SP_Count> sp) {
 	nSavedChoices += 1;
 
 	// For too few data points, no real variance
@@ -69,13 +69,13 @@ void SceneParams::updateVariance(float *sp) {
 	}
 
 	// Welford Algorithm
-	vectMinus(sp, onlineMean, onlineDelta);
-	vectDivScalar(onlineDelta, nSavedChoices, onlineDeltaN);
-	vectAdd(onlineMean, onlineDeltaN, onlineMean);
-	vectMinus(sp, onlineMean, onlineDelta2);
-	vectProd(onlineDelta, onlineDelta2, onlineM2Right);
-	vectAdd(onlineM2, onlineM2Right, onlineM2);
-	vectDivScalar(onlineM2, nSavedChoices - 1, paramVariances);
+    onlineDelta = sp - onlineMean; // vectMinus(sp, onlineMean, onlineDelta);
+    onlineDeltaN = onlineDelta / nSavedChoices; // vectDivScalar(onlineDelta, nSavedChoices, onlineDeltaN);
+    onlineMean = onlineMean + onlineDeltaN; // vectAdd(onlineMean, onlineDeltaN, onlineMean);
+	onlineDelta2 = sp - onlineMean; // vectMinus(sp, onlineMean, onlineDelta2);
+	onlineM2Right = onlineDelta.multiplyElement(onlineDelta2); // vectProd(onlineDelta, onlineDelta2, onlineM2Right);
+	onlineM2 = onlineM2 + onlineM2Right; // vectAdd(onlineM2, onlineM2Right, onlineM2);
+	paramVariances = onlineM2 / (nSavedChoices - 1); // vectDivScalar(onlineM2, nSavedChoices - 1, paramVariances);
 }
 
 void SceneParams::resetVariability() {

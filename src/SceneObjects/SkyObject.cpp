@@ -6,7 +6,7 @@
 using namespace ParamWorld;
 
 SkyObject::SkyObject(int starCount, glm::vec3 origin, float dist):
-        SceneObject(nullptr, origin),
+        SceneObject(ParamArray<SP_Count>(), origin),
         lastTime(glfwGetTime()) {
     glm::vec3 maxSize(1.0f, 1.0f, 1.0f);
     for (int i = 0; i < starCount; i++) {

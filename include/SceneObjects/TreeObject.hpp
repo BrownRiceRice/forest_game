@@ -15,6 +15,7 @@
 #include "Model.hpp"
 #include "SceneObject.hpp"
 #include "Color.hpp"
+#include "../Params/ParamArray.hpp"
 
 namespace ParamWorld {
 	class TreeObject : public SceneObject {
@@ -22,7 +23,7 @@ namespace ParamWorld {
 		TreeObject(glm::vec3 root, int depth, float height, float width,
                 float scale, float angle, Color leafColor, Color trunkColor, float leafSize);
 
-		TreeObject(glm::vec3 root, float *params) :
+		TreeObject(glm::vec3 root, ParamArray<SP_Count> params) :
 			SceneObject(params, root, new Logistic(glfwGetTime() + 6.0, 1.0)),
 			_depth((int)params[SP_Depth]), _height(params[SP_Height]), _width(params[SP_Width]),
 			_scale(params[SP_Scale]), _splitAngle(params[SP_SplitAngle]),

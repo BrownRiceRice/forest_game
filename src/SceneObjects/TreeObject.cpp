@@ -7,7 +7,7 @@ using namespace ParamWorld;
 TreeObject::TreeObject(glm::vec3 root, int depth, float height, float width,
 	float scale, float angle, Color leafColor,
 	Color trunkColor, float leafSize) :
-	SceneObject(nullptr, root),
+	SceneObject(ParamArray<SP_Count>(), root),
 	_depth(depth),
 	_height(height),
 	_width(width),

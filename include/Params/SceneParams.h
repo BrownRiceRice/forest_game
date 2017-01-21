@@ -3,6 +3,7 @@
 
 #include "AvailableParameters.h"
 #include "SParam.hpp"
+#include "ParamArray.hpp"
 
 #include <algorithm>
 #include <math.h>
@@ -29,12 +30,12 @@ public:
 
 	// Variance calculation, online
 	float nSavedChoices = 0.0f;
-	float onlineDelta[SP_Count];
-	float onlineDeltaN[SP_Count];
-	float onlineMean[SP_Count];
-	float onlineDelta2[SP_Count];
-	float onlineM2Right[SP_Count];
-	float onlineM2[SP_Count];
+	ParamArray<SP_Count> onlineDelta;
+	ParamArray<SP_Count> onlineDeltaN;
+	ParamArray<SP_Count> onlineMean;
+	ParamArray<SP_Count> onlineDelta2;
+	ParamArray<SP_Count> onlineM2Right;
+	ParamArray<SP_Count> onlineM2;
 
 	// Random number generators
 	std::default_random_engine randomGenerator;
@@ -45,23 +46,23 @@ public:
 	SParam **AllParams = (SParam **)malloc(SP_Count * sizeof(SParam *));
 
 	// The current global "mean" parameter vector
-	float paramMeans[SP_Count];
-	float paramVariances[SP_Count];
+	ParamArray<SP_Count> paramMeans;
+	ParamArray<SP_Count> paramVariances;
 
 	// deviance is a multiplier applied to the variance of each parameter
-	float *generate(float deviance);
+	ParamArray<SP_Count> generate(float deviance);
 
 	// Total random (valid) parameter
-	float *randomSP();
+	ParamArray<SP_Count> randomSP();
 
 	// Move paramMeans towards/away from sp
-	void moveMeans(float *sp, bool towards);
+	void moveMeans(ParamArray<SP_Count> sp, bool towards);
 
 	// Increase the variance so that learning is quick again
 	void changeVariability(float modifier);
 
 	// Updates the global variance so far
-	void updateVariance(float *sp);
+	void updateVariance(ParamArray<SP_Count> sp);
 
 	// Reset variance to highest possible level
 	void resetVariability();

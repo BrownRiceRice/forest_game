@@ -23,12 +23,12 @@ add_library(Forest_Lib
 )
 
 target_compile_features(Forest_Lib PRIVATE cxx_nonstatic_member_init)
+target_include_directories(Forest_Lib INTERFACE ${MY_HEADER_FILES})
 
 add_executable(Forest
     ${APPLICATION_MAIN}
 )
 
-target_include_directories(Forest_Lib INTERFACE ${MY_HEADER_FILES})
 target_compile_features(Forest PRIVATE cxx_nonstatic_member_init)
 
 target_link_libraries(Forest

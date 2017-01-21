@@ -4,12 +4,12 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include "Params/ParamArray.hpp"
 
 namespace ParamWorld {
 
 class Player {
 public:
-
   glm::vec3 position;
 
   float horizontalAngle;
