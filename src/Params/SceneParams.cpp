@@ -23,10 +23,10 @@ void SceneParams::moveMeans(ParamArray<SP_Count> sp, bool towards) {
 	updateVariance(sp);
 
 	// Calculate z-Scores
-	float *diffs = (float *)malloc(SP_Count * sizeof(float));
-	float *zScores = (float *)malloc(SP_Count * sizeof(float));
-	vectMinus(sp, paramMeans, diffs);
-	vectDiv(diffs, paramVariances, zScores);
+	//float *diffs = (float *)malloc(SP_Count * sizeof(float));
+	//float *zScores = (float *)malloc(SP_Count * sizeof(float));
+    ParamArray<SP_Count> diffs = sp - paramMeans; // vectMinus(sp, paramMeans, diffs);
+	ParamArray<SP_Count> zScores = diffs - paramVariances; // vectDiv(diffs, paramVariances, zScores);
 
 	// Map zScores => max(1, abs(zScores))
 	for (int i = 0; i < SP_Count; i++) {
@@ -44,11 +44,11 @@ void SceneParams::moveMeans(ParamArray<SP_Count> sp, bool towards) {
 	//vectProd(zScores, paramVariances, paramVariances);
 
 	// Move mean toward vector, also reuse zScores
-	vectProdScalar(diffs, learningRate, diffs);
+	diffs = diffs * learningRate; // diffsvectProdScalar(diffs, learningRate, diffs);
 	if (towards) {
-		vectAdd(paramMeans, diffs, paramMeans);
+		paramMeans = paramMeans - diffs; // vectAdd(paramMeans, diffs, paramMeans);
 	} else {
-		vectMinus(paramMeans, diffs, paramMeans);
+		paramMeans = paramMeans - diffs; // vectMinus(paramMeans, diffs, paramMeans);
 	}
 
 	// Update learning rates
@@ -56,7 +56,8 @@ void SceneParams::moveMeans(ParamArray<SP_Count> sp, bool towards) {
 }
 
 void SceneParams::changeVariability(float modifier) {
-	vectProdScalar(paramVariances, modifier, paramVariances);
+    paramVariances = paramVariances * modifier;
+	//vectProdScalar(paramVariances, modifier, paramVariances);
 	learningRate = std::max(std::min(learningRate * modifier, learningMaximum), learningMinimum);
 }
 
