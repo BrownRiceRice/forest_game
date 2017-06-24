@@ -71,13 +71,14 @@ void World::AddMoreThings(float x, float z, float horizontalAngle) {
             allObjects.push_back(tree);
             // TODO: add support for 'growing' models.
             relevantObjects.push_back(tree);
-            std::cout << "Now " << relevantObjects.size() << " objects in the relevant queue" << std::endl;
         } else {
-			RockObject rock(4, Color(.8, .9, .75), rootPos, glm::vec2(1.0f, 0),
-				glm::vec2(- 0.5f, - .5f), glm::vec2(- 0.5f, 0.5f), 1.4f);
+			RockObject rock(rootPos, glm::vec2(1.0f, 0),
+				glm::vec2(- 0.5f, - .5f), glm::vec2(- 0.5f, 0.5f), sceneParams.generate(2.0f));
             rock.init();
             allObjects.push_back(rock);
             // TODO: deal with growing models here
+            relevantObjects.push_back(rock);
         }
+        std::cout << "Now " << relevantObjects.size() << " objects in the relevant queue" << std::endl;
     }
 }

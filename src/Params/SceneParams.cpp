@@ -105,6 +105,12 @@ SceneParams::SceneParams(unsigned int seed) {
 	AllParams[SP_LeafG] = new SParam(false, 0.0f, 1.0f);
 	AllParams[SP_LeafB] = new SParam(false, 0.0f, 1.0f);
 	AllParams[SP_LeafSize] = new SParam(false, 0.5f, 2.0f);
+	
+	AllParams[SP_Rock_Depth] = new SParam(true, 2.0f, 5.0f);
+	AllParams[SP_Rock_R] = new SParam(false, 0.0f, 1.0f);
+	AllParams[SP_Rock_G] = new SParam(false, 0.0f, 1.0f);
+	AllParams[SP_Rock_B] = new SParam(false, 0.0f, 1.0f);
+	AllParams[SP_Rock_HeightMult] = new SParam(false, 0.3f, 1.8f);
 
 	// Initialize variances to 1
 	for (int i = 0; i < SP_Count; i++) {

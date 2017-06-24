@@ -19,6 +19,10 @@ public:
 	// Forcing it to be on the ground.
 	RockObject(int depth, Color color, glm::vec3 root,
                glm::vec2 a, glm::vec2 b, glm::vec2 c, float heightMult);
+	
+	// Inits the rock object with randomly generated scene params.
+	RockObject(glm::vec3 root, glm::vec2 a, glm::vec2 b, glm::vec2 c, ParamArray<SP_Count> params);
+
 
 private:
 	int _depth;

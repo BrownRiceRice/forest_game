@@ -23,6 +23,13 @@ namespace ParamWorld {
 		SP_LeafB,
 		SP_LeafSize,
 
+		// Rock Variables
+		SP_Rock_Depth,
+		SP_Rock_R,
+		SP_Rock_G,
+		SP_Rock_B,
+		SP_Rock_HeightMult,
+
 		// Total number of variables
 		SP_Count
 	};

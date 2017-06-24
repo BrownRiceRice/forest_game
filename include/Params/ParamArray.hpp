@@ -111,8 +111,4 @@ float &ParamArray<D>::operator[](int index) {
 }
 }
 
-
-
-
-
 #endif

@@ -16,6 +16,17 @@ RockObject::RockObject(int depth, Color color, glm::vec3 root,
             glm::vec3(c[0], 0, c[1]));
 }
 
+RockObject::RockObject(glm::vec3 root, glm::vec2 a, glm::vec2 b, glm::vec2 c, ParamArray<SP_Count> params) :
+        SceneObject(params, root, new Linear(glfwGetTime(), glfwGetTime() + 5.0)),
+        _depth((int)params[SP_Rock_Depth]),
+		_color1(params[SP_Rock_R], params[SP_Rock_G], params[SP_Rock_B]),
+		_color2(_color1.shiftUp(SHADE)),
+		_color3(_color1.shiftDown(SHADE)),
+		_heightMult(params[SP_Rock_HeightMult]) 
+{
+    Init(_depth, glm::vec3(a[0], 0, a[1]), glm::vec3(b[0], 0, b[1]), glm::vec3(c[0], 0, c[1]));
+}
+
 void RockObject::Init(int depth, glm::vec3 a, glm::vec3 b, glm::vec3 c) {
 	// Select a point slightly off the triangle.
 	glm::vec3 finalPt = sampleInTri(a, b, c);
