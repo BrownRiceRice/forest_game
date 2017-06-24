@@ -112,7 +112,7 @@ int main(void) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glUseProgram(programID);
 
-        player.computeMatricesFromInputs(window);
+        player.updateCameraFromInputs(window);
         w.updateExploredSquares(window, player.getPosition(), player.horizontalAngle);
         glm::mat4 ProjectionMatrix = player.getProjectionMatrix();
         glm::mat4 ViewMatrix = player.getViewMatrix();

@@ -13,7 +13,11 @@ public:
   glm::vec3 position;
 
   float horizontalAngle;
-  void computeMatricesFromInputs(GLFWwindow *window);
+
+  /**
+   * Polls inputs and updates player's position and viewing direction.
+   */
+  void updateCameraFromInputs(GLFWwindow *window);
 
   glm::mat4 getViewMatrix() {
       return ViewMatrix;

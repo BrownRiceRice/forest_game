@@ -3,7 +3,7 @@
 
 using namespace ParamWorld;
 
-void Player::computeMatricesFromInputs(GLFWwindow *window) {
+void Player::updateCameraFromInputs(GLFWwindow *window) {
     double currentTime = glfwGetTime();
     if (init) {
         // Fixes an issues where the mouse would be set to the center, but that
@@ -25,21 +25,6 @@ void Player::computeMatricesFromInputs(GLFWwindow *window) {
     horizontalAngle += mouseSpeed * deltaTime * float(1024/2 - xpos);
     // -= because I like inverted y-axis stuff
     verticalAngle += mouseSpeed * deltaTime * float(768/2 - ypos);
-
-    /*
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-        verticalAngle += deltaTime * mouseSpeed;
-    }
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-        verticalAngle -= deltaTime * mouseSpeed;
-    }
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-        horizontalAngle -= deltaTime * mouseSpeed;
-    }
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-        horizontalAngle += deltaTime * mouseSpeed;
-    }
-    */
 
     glm::vec3 front(
       sin(horizontalAngle),
