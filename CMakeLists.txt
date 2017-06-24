@@ -2,7 +2,6 @@
 
 # For an introduction to CMake, see
 # http://www.cmake.org/cmake/help/cmake_tutorial.html (at least steps 1 and 2)
-
 cmake_minimum_required (VERSION 3.1.0 FATAL_ERROR)
 project (ForestMacPort)
 
@@ -57,7 +56,7 @@ set(CMAKE_BUILD_TYPE RELEASE)
 
 # Build the actual code.
 add_subdirectory(src)
+add_subdirectory(Resources)
 
 enable_testing()
-
 add_subdirectory(test)

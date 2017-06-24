@@ -14,8 +14,10 @@ set(MY_SOURCE_FILES
 
 set(APPLICATION_MAIN forestMain.cpp)
 
-set (VERTEX_SHADER SimpleVertexShader.glsl)
-set (FRAGMENT_SHADER SimpleFragmentShader.glsl)
+set(VERTEX_SHADER SimpleVertexShader.glsl)
+set(FRAGMENT_SHADER SimpleFragmentShader.glsl)
+set(FONT_VERTEX_SHADER FontVertexShader.glsl)
+set(FONT_FRAGMENT_SHADER FontFragmentShader.glsl) 
 
 add_library(Forest_Lib
     ${MY_HEADER_FILES}
@@ -36,10 +38,13 @@ target_link_libraries(Forest
 	${OPENGL_LIBRARY}
 	${GLFW_LIBRARY}
 	${GLEW_LIBRARY}
-    ${FREETYPE_LIBS}
+    ${FREETYPE_LIBRARY}
     ${EXTRA_LIBS}
     Forest_Lib
 )
 
+# TODO: Put all shaders into a single folder.
 configure_file(${VERTEX_SHADER} ${VERTEX_SHADER} COPYONLY)
 configure_file(${FRAGMENT_SHADER} ${FRAGMENT_SHADER} COPYONLY)
+configure_file(${FONT_VERTEX_SHADER} ${FONT_VERTEX_SHADER} COPYONLY)
+configure_file(${FONT_FRAGMENT_SHADER} ${FONT_FRAGMENT_SHADER}, COPYONLY)
