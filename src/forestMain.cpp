@@ -81,6 +81,9 @@ int main()
         getchar();
         return -1;
     }
+  
+    GLFWmonitor* primary = glfwGetPrimaryMonitor();
+    const GLFWvidmode* mode = glfwGetVideoMode(primary);
 
     glfwWindowHint(GLFW_SAMPLES, 4);
     glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
@@ -88,6 +91,10 @@ int main()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // For Mac stuff
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // new OpenGL
+    glfwWindowHint(GLFW_RED_BITS, mode->redBits);
+    glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
+    glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
+    glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
 
     // Initialize Free Type.
     FT_Library ft;
@@ -104,7 +111,8 @@ int main()
     FT_Set_Pixel_Sizes(face, 0, 48);
 
     // Open a window and create its OpenGL context
-    window = glfwCreateWindow(windowWidth, windowHeight, "Forest", nullptr, nullptr);
+    //window = glfwCreateWindow(windowWidth, windowHeight, "Forest", glfwGetPrimaryMonitor(), nullptr);
+    window = glfwCreateWindow(mode->width, mode->height, "Forest", primary, nullptr);
     if (window == nullptr) {
         fprintf(stderr,
                 "Failed to open GLFW window. If you have an Intel GPU,"

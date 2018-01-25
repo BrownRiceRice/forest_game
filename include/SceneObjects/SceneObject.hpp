@@ -33,8 +33,6 @@ class SceneObject
     SceneObject(ParamArray<SP_Count> params, glm::vec3 rootPos)
         : params(params), size(new Constant()), rootPosition(rootPos)
     {
-        // Constant c;
-        // size = c;
     }
 
    protected:

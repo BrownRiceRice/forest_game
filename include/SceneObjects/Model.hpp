@@ -11,6 +11,11 @@
 
 namespace ParamWorld
 {
+    
+/**
+ * The graphics model for objects to be rendered. Handles the specific
+ * vertex, color and normal information.
+ */
 class Model
 {
    public:
@@ -21,7 +26,6 @@ class Model
     void AddBoxFromCenter(Color c, glm::vec3 origin, glm::vec3 size);
     void AddTetra(Color color, glm::vec3 top, glm::vec3 l, glm::vec3 r, glm::vec3 b);
     void AddBoxFromCenter(Color c, glm::vec3 center, glm::vec3 size, glm::fquat rotation);
-    // uint16_t AddVertex(float x, float y, float z, const Color& c);
 
     Model() {}
    protected:

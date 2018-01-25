@@ -1,6 +1,11 @@
 #ifndef COLOR_HPP
 #define COLOR_HPP
 
+/**
+ * An RGB color used for objects in the scene, rocks and stuff.
+ * Stores values from 0.0 to 1.0 for each channel (red, green, blue).
+ * Made to be constant once constructed.
+ */
 class Color
 {
    public:

@@ -5,31 +5,53 @@
 
 namespace ParamWorld
 {
+
+/**
+ * A function that returns a y value for a particular x value.
+ */
 class Function
 {
    public:
     virtual double at(double x) const = 0;
-    virtual ~Function() = default;
+    virtual ~Function()=default;
 };
 
-// Always at Size 1.0.
+/**
+ * Always returns 1.0, despite of the current x.
+ */
 class Constant : public Function
 {
    public:
     double at(double /*unused*/) const { return 1.0; }
-    Constant() {}
+    Constant()=default;
 };
 
+/**
+ * A function that is a linear/constart piecewise.
+ */
 class Linear : public Function
 {
    public:
+   /**
+    * @brief Constructor
+    * @param root when x = root, y is 0.0
+    * @param oneIntersect when x = oneIntersect, y is 1.0.
+    * In between root and oneIntersect, y is a linear interpolation between 0 and 1.
+    */
     Linear(double root, double oneIntersect) : _root(root), _oneIntersect(oneIntersect) {}
-    double at(double x) const { return std::min((x - _root) * (1 / (_oneIntersect - _root)), 1.0); }
+    ~Linear()=default;
+    double at(double x) const 
+    {
+        return std::fmin((x - _root) * (1 / (_oneIntersect - _root)), 1.0);
+    }
    private:
     double _root;
     double _oneIntersect;
 };
 
+/**
+ * A logistic function, approaching 1.0.
+ */
 class Logistic : public Function
 {
    public:

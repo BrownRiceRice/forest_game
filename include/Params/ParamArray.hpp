@@ -122,6 +122,6 @@ float &ParamArray<D>::operator[](int index)
 {
     return params[index];
 }
-}
+} // namespace
 
 #endif
