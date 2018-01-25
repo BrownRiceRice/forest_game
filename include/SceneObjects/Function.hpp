@@ -9,13 +9,14 @@ class Function
 {
    public:
     virtual double at(double x) const = 0;
+    virtual ~Function() = default;
 };
 
 // Always at Size 1.0.
 class Constant : public Function
 {
    public:
-    double at(double x) const { return 1.0; }
+    double at(double /*unused*/) const { return 1.0; }
     Constant() {}
 };
 

@@ -4,11 +4,9 @@
 #include <string>
 
 #define GLEW_STATIC  // Depending on how you built/installed GLEW, you may want to change this
-#include <GL/glew.h>
+#include "headers.hpp"
 
 // #define GLFW_DLL // Depending on how you built/installed GLFW, you may want to change this
-#include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include "Player.hpp"
 #include "SceneObjects/SceneObject.hpp"
@@ -92,10 +90,11 @@ int main()
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // new OpenGL
 
     // Initialize Free Type.
-
     FT_Library ft;
     if (FT_Init_FreeType(&ft) != 0) {
-        std::cout << "ERROR::FREETYPE: Could not init FreeTypeLibrary" << std::endl;
+        std::cout << "ERROR::FREETYPE: Could not init FreeTypeLibrary: "
+                     "Remember to run from the same directory as the binary."
+                  << std::endl;
     }
     FT_Face face;
     if (FT_New_Face(ft, "../fonts/arial.ttf", 0, &face) != 0) {

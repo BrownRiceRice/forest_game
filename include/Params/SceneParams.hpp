@@ -67,7 +67,7 @@ class SceneParams
     */
     SceneParams();
     SceneParams(unsigned int seed);
-    ~SceneParams()=default;
+    ~SceneParams() = default;
 };
 }
 

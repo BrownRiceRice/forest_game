@@ -25,7 +25,7 @@ class SParam
     // Constructor
     SParam(bool _isIntegral, float _min, float _max);
 
-    ~SParam();
+    ~SParam()=default;
 };
 }
 

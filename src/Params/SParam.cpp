@@ -32,6 +32,3 @@ SParam::SParam(bool _isIntegral, float _min, float _max)
 {
     randomGenerator.seed((unsigned int)time(nullptr));
 }
-
-// Empty destructor.
-SParam::~SParam() = default;

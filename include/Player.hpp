@@ -1,10 +1,9 @@
 #ifndef CONTROLS_HPP
 #define CONTROLS_HPP
 
-#include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include "Params/ParamArray.hpp"
+#include "headers.hpp"
 
 namespace ParamWorld
 {

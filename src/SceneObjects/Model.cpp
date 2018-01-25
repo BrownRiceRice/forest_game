@@ -27,25 +27,25 @@ void Model::drawBuffer() const
     glBindBuffer(GL_ARRAY_BUFFER, _vertexbuffer);
     glVertexAttribPointer(0,  // attribute 0, no reason for 0, but must match layout in shader
                           3,  // size
-                          GL_FLOAT,       // type
-                          GL_FALSE,       // normalized
-                          0,              // stride
-                          (void*)nullptr  // array buffer offset
+                          GL_FLOAT,  // type
+                          GL_FALSE,  // normalized
+                          0,         // stride
+                          nullptr    // array buffer offset
                           );
 
     glEnableVertexAttribArray(1);
     glBindBuffer(GL_ARRAY_BUFFER, _colorbuffer);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)nullptr);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
     // 3rd attribute buffer : normals
     glEnableVertexAttribArray(2);
     glBindBuffer(GL_ARRAY_BUFFER, _normalbuffer);
-    glVertexAttribPointer(2,              // attribute
-                          3,              // size
-                          GL_FLOAT,       // type
-                          GL_FALSE,       // normalized?
-                          0,              // stride
-                          (void*)nullptr  // array buffer offset
+    glVertexAttribPointer(2,         // attribute
+                          3,         // size
+                          GL_FLOAT,  // type
+                          GL_FALSE,  // normalized?
+                          0,         // stride
+                          nullptr    // array buffer offset
                           );
 
     glDrawArrays(GL_TRIANGLES, 0, _vertices.size() / 3);
@@ -105,13 +105,6 @@ void Model::AddBoxFromCorner(float x1, float y1, float z1, float x2, float y2, f
             _normals.push_back(n[2]);
         }
     }
-    /*
-    for (int i = 0; i < 36; i++) {
-        _colors.push_back(c.getRed());
-        _colors.push_back(c.getGreen());
-        _colors.push_back(c.getBlue());
-    }
-    */
 }
 
 void Model::AddBoxFromCorner(Color c, glm::vec3 origin, glm::vec3 size)

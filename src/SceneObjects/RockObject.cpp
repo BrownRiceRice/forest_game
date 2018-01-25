@@ -1,5 +1,5 @@
 #include "SceneObjects/RockObject.hpp"
-#include <stdio.h>
+#include <iostream>
 
 using namespace ParamWorld;
 
@@ -44,6 +44,10 @@ void RockObject::Init(int depth, glm::vec3 a, glm::vec3 b, glm::vec3 c)
             colorPtr = &_color2;
             break;
         case 2:
+            colorPtr = &_color3;
+            break;
+        default:  // shouldn't have other colors.
+            std::cerr << "Rock init: shouldn't have normal be " << best << std::endl;
             colorPtr = &_color3;
             break;
     }

@@ -1,12 +1,12 @@
 #ifndef SKYOBJECT_HPP
 #define SKYOBJECT_HPP
 
+#include "headers.hpp"
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/transform.hpp>
 #include "SceneObject.hpp"
-#include "headers.hpp"
 
 namespace ParamWorld
 {

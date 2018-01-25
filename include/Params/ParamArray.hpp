@@ -1,6 +1,7 @@
 #ifndef ParamArray_HPP
 #define ParamArray_HPP
 
+#include <math.h>
 #include <array>
 
 namespace ParamWorld

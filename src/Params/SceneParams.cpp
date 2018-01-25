@@ -126,5 +126,3 @@ SceneParams::SceneParams(unsigned int seed)
             static_cast<float>(RAND_MAX));  // unitUniformDistribution(randomGenerator));
     }
 }
-
-SceneParams::~SceneParams() = default;
