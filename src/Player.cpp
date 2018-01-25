@@ -3,7 +3,8 @@
 
 using namespace ParamWorld;
 
-void Player::updateCameraFromInputs(GLFWwindow *window) {
+void Player::updateCameraFromInputs(GLFWwindow *window)
+{
     double currentTime = glfwGetTime();
     if (init) {
         // Fixes an issues where the mouse would be set to the center, but that
@@ -12,7 +13,7 @@ void Player::updateCameraFromInputs(GLFWwindow *window) {
         if (currentTime - lastTime < .1f) {
             return;
         }
-        glfwSetCursorPos(window, 1024/2, 768/2);
+        glfwSetCursorPos(window, 1024 / 2, 768 / 2);
         init = false;
     }
     float deltaTime = float(currentTime - lastTime);
@@ -20,23 +21,16 @@ void Player::updateCameraFromInputs(GLFWwindow *window) {
     // Start with mouse position
     double xpos, ypos;
     glfwGetCursorPos(window, &xpos, &ypos);
-    glfwSetCursorPos(window, 1024/2, 768/2);
+    glfwSetCursorPos(window, 1024 / 2, 768 / 2);
 
-    horizontalAngle += mouseSpeed * deltaTime * float(1024/2 - xpos);
+    horizontalAngle += mouseSpeed * deltaTime * float(1024 / 2 - xpos);
     // -= because I like inverted y-axis stuff
-    verticalAngle += mouseSpeed * deltaTime * float(768/2 - ypos);
+    verticalAngle += mouseSpeed * deltaTime * float(768 / 2 - ypos);
 
-    glm::vec3 front(
-      sin(horizontalAngle),
-      0,
-      cos(horizontalAngle)
-    );
+    glm::vec3 front(sin(horizontalAngle), 0, cos(horizontalAngle));
 
-    glm::vec3 right = glm::vec3(
-        sin(horizontalAngle - 3.14159f/2.0f),
-        0,
-        cos(horizontalAngle - 3.14159f/2.0f)
-    );
+    glm::vec3 right = glm::vec3(sin(horizontalAngle - 3.14159f / 2.0f), 0,
+                                cos(horizontalAngle - 3.14159f / 2.0f));
 
     if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
         position += front * deltaTime * speed;
@@ -51,11 +45,8 @@ void Player::updateCameraFromInputs(GLFWwindow *window) {
         position -= right * deltaTime * speed;
     }
 
-    direction = glm::vec3(
-        cos(verticalAngle) * sin(horizontalAngle),
-        sin(verticalAngle),
-        cos(verticalAngle) * cos(horizontalAngle)
-    );
+    direction = glm::vec3(cos(verticalAngle) * sin(horizontalAngle), sin(verticalAngle),
+                          cos(verticalAngle) * cos(horizontalAngle));
 
     up = glm::cross(right, direction);
 

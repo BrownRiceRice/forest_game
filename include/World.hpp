@@ -1,52 +1,52 @@
 #ifndef WORLD_HPP
 #define WORLD_HPP
 
-#include "headers.hpp"
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/transform.hpp>
 #include <unordered_set>
 #include <vector>
+#include "headers.hpp"
 
 #include "Params/SceneParams.h"
-#include "SceneObjects/SceneObject.hpp"
-#include "SceneObjects/TreeObject.hpp"
 #include "SceneObjects/RockObject.hpp"
+#include "SceneObjects/SceneObject.hpp"
 #include "SceneObjects/SkyObject.hpp"
+#include "SceneObjects/TreeObject.hpp"
 
-namespace ParamWorld {
-
+namespace ParamWorld
+{
 struct Square {
     int x;
     int z;
 
     Square(int xx, int zz) : x(xx), z(zz) {}
-
-    bool operator==(const Square s) const {
-        return s.x == x && s.z == z;
-    }
+    bool operator==(const Square s) const { return s.x == x && s.z == z; }
 };
 }
 
-namespace std {
-template<>
+namespace std
+{
+template <>
 struct hash<ParamWorld::Square> {
-    size_t operator()(const ParamWorld::Square &sq) const {
+    size_t operator()(const ParamWorld::Square &sq) const
+    {
         return std::hash<int>()(sq.x) ^ std::hash<int>()(sq.z);
     }
 };
 }
 
-namespace ParamWorld {
-
-class World {
-public:
+namespace ParamWorld
+{
+class World
+{
+   public:
     void Render(glm::mat4 Perspective, glm::vec3 position, glm::vec3 direction, glm::vec3 up);
     void updateExploredSquares(GLFWwindow *window, glm::vec3 position, float horizontalAngle);
     World(float worldExtent, GLuint matID);
 
-private:
+   private:
     void AddMoreThings(float x, float z, float horizontalAngle);
 
     // The parameters that generate the new parts of the world.
@@ -68,6 +68,6 @@ private:
 
     const float radius = 10.0f;
 };
-} // end namespace
+}  // end namespace
 
 #endif
