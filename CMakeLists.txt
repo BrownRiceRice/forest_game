@@ -5,41 +5,51 @@
 cmake_minimum_required (VERSION 3.1.0 FATAL_ERROR)
 project (ForestMacPort)
 
+add_compile_options(-std=c++11)
+
 find_package(PkgConfig REQUIRED)
 find_package(OpenGL REQUIRED)
-find_package(glfw3 3.2 REQUIRED)
-find_package(freetype REQUIRED)
+find_package(glfw3 3.1.2 REQUIRED)
+find_package(Freetype REQUIRED)
 
 # In order to build GLFW on Mac, you need to include these libraries.
 # See http://www.glfw.org/docs/3.0/build.html#build_link_xcode
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    FIND_LIBRARY(COCOA_LIBRARY Cocoa)
+    Find_LIBRARY(COCOA_LIBRARY Cocoa)
     Find_LIBRARY(IOKIT_LIBRARY IOKit)
     Find_LIBRARY(COREVIDEO_LIBRARY CoreVideo)
-    SET(EXTRA_LIBS ${COCOA_LIBRARY} ${IOKIT_LIBRARY} ${COREVIDEO_LIBRARY})
+
+    # On mac, installing via brew did not work, must install from the source.
+    # (that created the libglfw3.a).
+    set(EXTRA_LIBS ${COCOA_LIBRARY} ${IOKIT_LIBRARY} ${COREVIDEO_LIBRARY})
+
+    set(GLFW_INCLUDE_DIRS "/usr/local/include/" CACHE PATH "Directory containing GL/glfw.h" )
+    set(GLFW_LIBRARIES "/usr/local/lib/libglfw3.a" CACHE FILEPATH "libglfw.a" )
+
+    set(GLEW_INCLUDE_DIRS "/usr/local/Cellar/glew/2.0.0/include" CACHE PATH "Directory containing GL/glew.h" )
+    set(GLEW_LIBRARIES "/usr/local/Cellar/glew/2.0.0/lib/libGLEW.a" CACHE FILEPATH "libglew.a" )
+
+    set(GLM_INCLUDE_DIRS "/usr/local/Cellar/glm/0.9.8.3/include" CACHE PATH "Directory containing glm/glm.hpp" )
 ENDIF (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
-# Ask the user to give the paths to GLFW, GLEW and GLM.
-# On Linux this can be found automatically with pkg-config;
-# see http://stackoverflow.com/questions/6889264/cmake-flags-for-opengl-using-glew-and-glfw, for instance.
-# On mac, installing via brew did not work, must install from the source.
-# (that created the libglfw3.a).
-set(GLFW_INCLUDE_PATH "/usr/local/include/" CACHE PATH "Directory containing GL/glfw.h" )
-set(GLFW_LIBRARY "/usr/local/lib/libglfw3.a" CACHE FILEPATH "libglfw.a" )
-
-set(GLEW_INCLUDE_PATH "/usr/local/Cellar/glew/2.0.0/include" CACHE PATH "Directory containing GL/glew.h" )
-set(GLEW_LIBRARY "/usr/local/Cellar/glew/2.0.0/lib/libGLEW.a" CACHE FILEPATH "libglew.a" )
-
-set(GLM_INCLUDE_PATH "/usr/local/Cellar/glm/0.9.8.3/include" CACHE PATH "Directory containing glm/glm.hpp" )
+# Automatically find GLFW and GLEW.
+IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    find_package(PkgConfig REQUIRED)
+    pkg_search_module(GLFW REQUIRED glfw3)
+    # GLFW_INCLUDE_DIRS should now be defined.
+    find_package(GLEW REQUIRED)
+ENDIF (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
 include_directories(
     ${PROJECT_SOURCE_DIR}/include
     ${PROJECT_BINARY_DIR}/include
-	${GLFW_INCLUDE_PATH}
-	${GLEW_INCLUDE_PATH}
-	${GLM_INCLUDE_PATH}
+	${GLFW_INCLUDE_DIRS}
+	${GLEW_INCLUDE_DIRS}
+	${GLM_INCLUDE_DIRS}
     ${FREETYPE_INCLUDE_DIRS}
 )
+
+set(CMAKE_EXPORT_COMIPLE_COMMANDS ON)
 
 # Add a checkbox in CMakeGUI :
 set(PERFORMANCE_TOOLS ON BOOL "Check this to print out performance data.")
