@@ -13,8 +13,8 @@ TreeObject::TreeObject(glm::vec3 root, int depth, float height, float width,
 	_width(width),
 	_scale(scale),
 	_splitAngle(angle),
-	_leafColor(leafColor),
-	_trunkColor(trunkColor),
+	_leafColor(std::move(leafColor)),
+	_trunkColor(std::move(trunkColor)),
 	_leafSize(leafSize)
 {
 	initModels(glm::vec3(0, 0, 0), glm::vec3(width, height, width), depth, glm::fquat(1.0, 0.0, 0.0, 0.0));

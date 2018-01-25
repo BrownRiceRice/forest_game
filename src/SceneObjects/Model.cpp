@@ -41,7 +41,7 @@ void Model::drawBuffer() const {
       GL_FLOAT, // type
       GL_FALSE, // normalized
       0,  // stride
-      (void*)0 // array buffer offset
+      (void*)nullptr // array buffer offset
     );
 
     glEnableVertexAttribArray(1);
@@ -52,7 +52,7 @@ void Model::drawBuffer() const {
       GL_FLOAT,
       GL_FALSE,
       0,
-      (void*)0
+      (void*)nullptr
     );
 
     // 3rd attribute buffer : normals
@@ -64,7 +64,7 @@ void Model::drawBuffer() const {
         GL_FLOAT,                         // type
         GL_FALSE,                         // normalized?
         0,                                // stride
-        (void*)0                          // array buffer offset
+        (void*)nullptr                          // array buffer offset
     );
 
     glDrawArrays(GL_TRIANGLES, 0, _vertices.size()/3);
@@ -236,8 +236,8 @@ void Model::AddBoxFromCenter(Color c, glm::vec3 center, glm::vec3 size, glm::fqu
 	vecsOToPs.push_back(glm::vec3(s[0], -s[1], s[2]));
 
     std::vector<glm::vec3> vs;
-    for (unsigned int i = 0; i < vecsOToPs.size(); i++) {
-        vs.push_back(glm::rotate(rotation, vecsOToPs.at(i)) + o);
+    for (auto & vecsOToP : vecsOToPs) {
+        vs.push_back(glm::rotate(rotation, vecsOToP) + o);
     }
 
     float verts[] = {

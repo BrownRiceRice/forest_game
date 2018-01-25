@@ -14,11 +14,11 @@ World::World(float worldExtent, GLuint matID) :
 
 void World::Render(glm::mat4 Perspective, glm::vec3 position, glm::vec3 direction, glm::vec3 up) {
     glm::mat4 View = glm::lookAt(position, position + direction, up);
-    for (auto it = allObjects.begin(); it != allObjects.end(); it++) {
-        glm::mat4 ModelM = it->calcModelMatrix();
+    for (auto & allObject : allObjects) {
+        glm::mat4 ModelM = allObject.calcModelMatrix();
         glm::mat4 mvp = Perspective * View * ModelM;
         glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
-        it->draw();
+        allObject.draw();
     }
     glm::mat4 stationaryView = glm::lookAt(glm::vec3(0, position[1], 0), glm::vec3(0, position[1], 0) + direction, up);
 

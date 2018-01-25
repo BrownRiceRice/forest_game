@@ -83,10 +83,10 @@ void SceneParams::resetVariability() {
 	learningRate = learningMaximum;
 }
 
-SceneParams::SceneParams() : SceneParams((unsigned int) time(NULL)) {}
+SceneParams::SceneParams() : SceneParams((unsigned int) time(nullptr)) {}
 
 SceneParams::SceneParams(unsigned int seed) {
-	randomGenerator.seed(((unsigned int)time(NULL)));
+	randomGenerator.seed(((unsigned int)time(nullptr)));
 	// Colors
 	AllParams[SP_Red] = new SParam(false, 0.0f, 1.0f);
 	AllParams[SP_Green] = new SParam(false, 0.0f, 1.0f);
@@ -118,4 +118,4 @@ SceneParams::SceneParams(unsigned int seed) {
 	}
 }
 
-SceneParams::~SceneParams() {}
+SceneParams::~SceneParams() = default;

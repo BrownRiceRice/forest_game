@@ -51,11 +51,11 @@ void RockObject::Init(int depth, glm::vec3 a, glm::vec3 b, glm::vec3 c) {
 	if (depth == 0) {
 		return;
 	}
-	else {
+	
 		Init(depth - 1, finalPt, a, b);
 		Init(depth - 1, finalPt, b, c);
 		Init(depth - 1, finalPt, c, a);
-	}
+	
 }
 
 glm::vec3 RockObject::sampleInTri(glm::vec3 a, glm::vec3 b, glm::vec3 c) {

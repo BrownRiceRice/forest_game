@@ -39,7 +39,7 @@ namespace ParamWorld {
 		float _height, _width, _scale, _splitAngle, _leafSize;
 		Color _leafColor, _trunkColor;
 
-		void initModels(glm::vec3 root, glm::vec3 dims, int depth, glm::fquat angleFromY);
+		void initModels(glm::vec3 root, glm::vec3 dims, int depth, glm::fquat rotation);
 	};
 }
 

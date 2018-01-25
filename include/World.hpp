@@ -43,7 +43,7 @@ namespace ParamWorld {
 class World {
 public:
     void Render(glm::mat4 Perspective, glm::vec3 position, glm::vec3 direction, glm::vec3 up);
-    void updateExploredSquares(GLFWwindow *window, glm::vec3 playerPosition, float theta);
+    void updateExploredSquares(GLFWwindow *window, glm::vec3 position, float horizontalAngle);
     World(float worldExtent, GLuint matID);
 
 private:

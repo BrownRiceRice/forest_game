@@ -29,8 +29,8 @@ float SParam::generateGaussian(float mean, float variance,
 SParam::SParam(bool _isIntegral, float _min, float _max) :
         isIntegral(_isIntegral), randomGenerator(),
         min(_min), max(_max) {
-    randomGenerator.seed((unsigned int)time(NULL));
+    randomGenerator.seed((unsigned int)time(nullptr));
 }
 
 // Empty destructor.
-SParam::~SParam() {}
+SParam::~SParam() = default;

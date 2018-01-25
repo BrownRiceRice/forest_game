@@ -49,7 +49,7 @@ include_directories(
     ${FREETYPE_INCLUDE_DIRS}
 )
 
-set(CMAKE_EXPORT_COMIPLE_COMMANDS ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Add a checkbox in CMakeGUI :
 set(PERFORMANCE_TOOLS ON BOOL "Check this to print out performance data.")

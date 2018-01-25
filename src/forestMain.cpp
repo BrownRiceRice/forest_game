@@ -76,12 +76,12 @@ void RenderText(GLuint shaderProgramID, std::string text, GLfloat x, GLfloat y, 
 }
 
 
-int main(void) {
+int main() {
     int windowWidth = 1024;
     int windowHeight = 768;
 
     // Initialise GLFW
-    if( !glfwInit() ) {
+    if( glfwInit() == 0 ) {
 	    fprintf( stderr, "Failed to initialize GLFW\n" );
   	    getchar();
   	    return -1;
@@ -97,19 +97,19 @@ int main(void) {
     // Initialize Free Type.
     
     FT_Library ft;
-    if (FT_Init_FreeType(&ft)) {
+    if (FT_Init_FreeType(&ft) != 0) {
         std::cout << "ERROR::FREETYPE: Could not init FreeTypeLibrary" << std::endl;
     }
     FT_Face face;
-    if (FT_New_Face(ft, "../fonts/arial.ttf", 0, &face)) {
+    if (FT_New_Face(ft, "../fonts/arial.ttf", 0, &face) != 0) {
         std::cout << "ERROR::FREETYPE: Failed to load font" << std::endl;
     }
     // TODO: Resize based on window size.
     FT_Set_Pixel_Sizes(face, 0, 48);
     
   	// Open a window and create its OpenGL context
-    window = glfwCreateWindow(windowWidth, windowHeight, "Forest" , NULL, NULL);
-  	if(window == NULL) {
+    window = glfwCreateWindow(windowWidth, windowHeight, "Forest" , nullptr, nullptr);
+  	if(window == nullptr) {
 	    fprintf( stderr, "Failed to open GLFW window. If you have an Intel GPU,"
                 " they are not 3.3 compatible.\n" );
 		getchar();
@@ -118,7 +118,7 @@ int main(void) {
 	}
 
     glfwMakeContextCurrent(window);
-    glewExperimental=true;
+    glewExperimental=1u;
 
     // Initialize GLEW
     if (glewInit() != GLEW_OK) {
@@ -145,7 +145,7 @@ int main(void) {
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1); //Disable byte-alignment restriction
     
     for (GLubyte c = 0; c < 128; c++) {
-        if (FT_Load_Char(face, c, FT_LOAD_RENDER)) {
+        if (FT_Load_Char(face, c, FT_LOAD_RENDER) != 0) {
             std::cout << "ERROR::FREETYPE: Failed to load Glyph" << std::endl;
             continue;
         }
