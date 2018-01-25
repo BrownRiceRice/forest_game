@@ -36,8 +36,8 @@ target_compile_features(Forest PRIVATE cxx_nonstatic_member_init)
 target_link_libraries(Forest
     # filled by "find_package(OpenGL REQUIRED)" and other defs in root dir.
 	${OPENGL_LIBRARY}
-	${GLFW_LIBRARY}
-	${GLEW_LIBRARY}
+	${GLFW_LIBRARIES}
+	${GLEW_LIBRARIES}
     ${FREETYPE_LIBRARY}
     ${EXTRA_LIBS}
     Forest_Lib

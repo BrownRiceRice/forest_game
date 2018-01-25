@@ -1,8 +1,7 @@
 #ifndef WORLD_HPP
 #define WORLD_HPP
 
-#include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
+#include "headers.hpp"
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/quaternion.hpp>
