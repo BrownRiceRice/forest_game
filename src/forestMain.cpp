@@ -222,6 +222,7 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         glUseProgram(programID);
+        glfwPollEvents();
         player.updateCameraFromInputs(window);
         w.updateExploredSquares(window, player.getPosition(), player.horizontalAngle);
         w.Render(player.getProjectionMatrix(), player.getPosition(), player.getDirection(),
@@ -232,7 +233,6 @@ int main()
 
         // Swap buffers
         glfwSwapBuffers(window);
-        glfwPollEvents();
 
     }  // Check if the ESC key was pressed or the window was closed
     while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(window) == 0);

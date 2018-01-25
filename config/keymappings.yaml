@@ -1,0 +1,15 @@
+# Mappings for moving around. Different profiles are avaliable. 
+# From direction to GLFW_KEY_* number.
+Qwerty : {
+  MOVE_FORWARD: 87,
+  MOVE_BACKWARD: 83,
+  MOVE_RIGHT: 68,
+  MOVE_LEFT: 65
+}
+
+NumberPad: {
+  MOVE_FORWARD: 265,
+  MOVE_BACKWARD: 264,
+  MOVE_LEFT: 263,
+  MOVE_RIGHT: 262
+}

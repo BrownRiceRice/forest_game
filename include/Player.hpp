@@ -1,6 +1,7 @@
 #ifndef CONTROLS_HPP
 #define CONTROLS_HPP
 
+#include <yaml-cpp/yaml.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include "Params/ParamArray.hpp"
 #include "headers.hpp"
@@ -34,6 +35,17 @@ class Player
           mouseSpeed(0.005f * 10),
           init(true)
     {
+        // Be lazy and load keymappings in here.
+        configureMappings();
+    }
+
+    void configureMappings()
+    {
+        YAML::Node config = YAML::LoadFile("../config/keymappings.yaml");
+        MOVE_FORWARD = config["Qwerty"]["MOVE_FORWARD"].as<int>();
+        MOVE_BACKWARD = config["Qwerty"]["MOVE_BACKWARD"].as<int>();
+        MOVE_RIGHT = config["Qwerty"]["MOVE_RIGHT"].as<int>();
+        MOVE_LEFT = config["Qwerty"]["MOVE_LEFT"].as<int>();
     }
 
    private:
@@ -49,6 +61,11 @@ class Player
     glm::mat4 ViewMatrix;
     glm::vec3 direction;
     glm::vec3 up;
+
+    int MOVE_FORWARD;
+    int MOVE_BACKWARD;
+    int MOVE_LEFT;
+    int MOVE_RIGHT;
 
     bool init;
 };

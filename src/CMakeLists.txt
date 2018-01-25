@@ -39,6 +39,7 @@ target_link_libraries(Forest
 	${GLFW_LIBRARIES}
 	${GLEW_LIBRARIES}
     ${FREETYPE_LIBRARY}
+    ${YAML_CPP_LIBRARIES}
     ${EXTRA_LIBS}
     Forest_Lib
 )

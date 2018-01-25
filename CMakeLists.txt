@@ -11,6 +11,7 @@ find_package(PkgConfig REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(glfw3 3.1.2 REQUIRED)
 find_package(Freetype REQUIRED)
+find_package(YAML-CPP REQUIRED)
 
 # In order to build GLFW on Mac, you need to include these libraries.
 # See http://www.glfw.org/docs/3.0/build.html#build_link_xcode
@@ -63,6 +64,7 @@ if(PERFORMANCE_TOOLS)
 endif(PERFORMANCE_TOOLS)
 
 set(CMAKE_BUILD_TYPE RELEASE)
+file(COPY config DESTINATION ${CMAKE_BINARY_DIR})
 
 # Build the actual code.
 add_subdirectory(src)

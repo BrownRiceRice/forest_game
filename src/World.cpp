@@ -84,7 +84,5 @@ void World::AddMoreThings(float x, float z, float horizontalAngle)
             // TODO: deal with growing models here
             relevantObjects.push_back(rock);
         }
-        std::cout << "Now " << relevantObjects.size() << " objects in the relevant queue"
-                  << std::endl;
     }
 }

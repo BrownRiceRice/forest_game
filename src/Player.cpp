@@ -13,6 +13,7 @@ void Player::updateCameraFromInputs(GLFWwindow *window)
         if (currentTime - lastTime < .1f) {
             return;
         }
+        // TODO: should be full screen now?
         glfwSetCursorPos(window, 1024 / 2, 768 / 2);
         init = false;
     }
@@ -32,16 +33,16 @@ void Player::updateCameraFromInputs(GLFWwindow *window)
     glm::vec3 right = glm::vec3(sin(horizontalAngle - 3.14159f / 2.0f), 0,
                                 cos(horizontalAngle - 3.14159f / 2.0f));
 
-    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
+    if (glfwGetKey(window, MOVE_FORWARD) == GLFW_PRESS) {
         position += front * deltaTime * speed;
     }
-    if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+    if (glfwGetKey(window, MOVE_BACKWARD) == GLFW_PRESS) {
         position -= front * deltaTime * speed;
     }
-    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
+    if (glfwGetKey(window, MOVE_RIGHT) == GLFW_PRESS) {
         position += right * deltaTime * speed;
     }
-    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
+    if (glfwGetKey(window, MOVE_LEFT) == GLFW_PRESS) {
         position -= right * deltaTime * speed;
     }
 
