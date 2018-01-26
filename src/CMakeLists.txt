@@ -31,6 +31,16 @@ add_executable(Forest
     ${APPLICATION_MAIN}
 )
 
+add_executable(Font text.cpp shader.cpp)
+target_include_directories(Font INTERFACE ${MY_HEADER_FILES})
+target_link_libraries(Font
+    ${OPENGL_LIBRARY}
+    ${GLFW_LIBRARIES}
+    ${GLEW_LIBRARIES}
+    ${GLUT_LIBRARIES}
+    ${FREETYPE_LIBRARY}
+)
+
 target_compile_features(Forest PRIVATE cxx_nonstatic_member_init)
 
 target_link_libraries(Forest

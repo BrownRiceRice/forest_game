@@ -39,6 +39,7 @@ IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     pkg_search_module(GLFW REQUIRED glfw3)
     # GLFW_INCLUDE_DIRS should now be defined.
     find_package(GLEW REQUIRED)
+    find_package(GLUT REQUIRED)
 ENDIF (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
 include_directories(

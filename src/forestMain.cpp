@@ -35,6 +35,9 @@ struct Character {
 std::map<GLchar, Character> Characters;
 
 GLuint VAO, VBO;
+   
+FT_Library ft;
+FT_Face face;
 
 /**
  * Renders a line of text.
@@ -66,15 +69,33 @@ void RenderText(GLuint shaderProgramID, std::string text, GLfloat x, GLfloat y, 
         glDrawArrays(GL_TRIANGLES, 0, 6);
         x += (ch.Advance >> 6) * scale;
     }
-    glBindVertexArray(0);
-    glBindTexture(GL_TEXTURE_2D, 0);
+    //glBindVertexArray(0);
+    //glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-int main()
+void key_callback(GLFWwindow * window, int key, int scancode, int action, int mods)
 {
-    int windowWidth = 1024;
-    int windowHeight = 768;
+    if (action == GLFW_RELEASE)
+    {
+        std::cout << "Released key " << key << std::endl;
+    }
+}
 
+int init_resources()
+{
+    // Initialize Free Type.
+    if (FT_Init_FreeType(&ft) != 0) {
+        std::cerr << "ERROR::FREETYPE: Could not init FreeTypeLibrary: "
+                     "Remember to run from the same directory as the binary."
+                  << std::endl;
+    }
+    if (FT_New_Face(ft, "../fonts/arial.ttf", 0, &face) != 0) {
+        std::cerr << "ERROR::FREETYPE: Failed to load font" << std::endl;
+    }
+}
+
+int init_glfw()
+{
     // Initialise GLFW
     if (glfwInit() == 0) {
         fprintf(stderr, "Failed to initialize GLFW\n");
@@ -96,23 +117,11 @@ int main()
     glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
     glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
 
-    // Initialize Free Type.
-    FT_Library ft;
-    if (FT_Init_FreeType(&ft) != 0) {
-        std::cout << "ERROR::FREETYPE: Could not init FreeTypeLibrary: "
-                     "Remember to run from the same directory as the binary."
-                  << std::endl;
-    }
-    FT_Face face;
-    if (FT_New_Face(ft, "../fonts/arial.ttf", 0, &face) != 0) {
-        std::cout << "ERROR::FREETYPE: Failed to load font" << std::endl;
-    }
-    // TODO: Resize based on window size.
-    FT_Set_Pixel_Sizes(face, 0, 48);
-
     // Open a window and create its OpenGL context
     //window = glfwCreateWindow(windowWidth, windowHeight, "Forest", glfwGetPrimaryMonitor(), nullptr);
-    window = glfwCreateWindow(mode->width, mode->height, "Forest", primary, nullptr);
+    int windowWidth = mode->width;
+    int windowHeight = mode->height;
+    window = glfwCreateWindow(windowWidth, windowHeight, "Forest", primary, nullptr);
     if (window == nullptr) {
         fprintf(stderr,
                 "Failed to open GLFW window. If you have an Intel GPU,"
@@ -123,6 +132,21 @@ int main()
     }
 
     glfwMakeContextCurrent(window);
+
+    // Ensure we can capture the escape key being pressed below
+    glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
+    glfwSetCursorPos(window, windowWidth / 2, windowHeight / 2);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetCursorPos(window, windowWidth / 2, windowHeight / 2);
+
+    glfwSetKeyCallback(window, key_callback);
+}
+
+
+int main()
+{
+    init_glfw();
+
     glewExperimental = 1u;
 
     // Initialize GLEW
@@ -133,11 +157,9 @@ int main()
         return -1;
     }
 
-    // Ensure we can capture the escape key being pressed below
-    glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
-    glfwSetCursorPos(window, windowWidth / 2, windowHeight / 2);
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-    glfwSetCursorPos(window, windowWidth / 2, windowHeight / 2);
+    init_resources();
+    // TODO: Resize based on window size.
+    FT_Set_Pixel_Sizes(face, 0, 48);
 
     // Dark blue background
     glClearColor(0.0f, 0.0f, 0.2f, 0.0f);
@@ -182,8 +204,8 @@ int main()
     FT_Done_FreeType(ft);
 
     // REquired for Font fragment shader.
-    // glEnable(GL_BLEND);
-    // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    //glEnable(GL_BLEND);
+    //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     GLuint programID = LoadShaders("SimpleVertexShader.glsl", "SimpleFragmentShader.glsl");
     // Shaders for fonts.
@@ -229,7 +251,8 @@ int main()
                  player.getUp());
 
         // Render Text.
-        // TODO
+        // TODO: follow OpenGL_programming: Modern_OpenGL_Tutorial_Text_Rendering front to back when you have time.
+        //RenderText(fontID, "Hi", 0.0, 0.0, 10.0, glm::vec3(1.0, 0.0, 0.0));
 
         // Swap buffers
         glfwSwapBuffers(window);
@@ -238,6 +261,7 @@ int main()
     while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(window) == 0);
 
     // Close OpenGL window and terminate GLFW
+    glDeleteProgram(programID);
     glfwTerminate();
     return 0;
 }
