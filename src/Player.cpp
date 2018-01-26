@@ -5,6 +5,8 @@ using namespace ParamWorld;
 
 void Player::updateCameraFromInputs(GLFWwindow *window)
 {
+    int width, height;
+    glfwGetWindowSize(window, &width, &height);
     double currentTime = glfwGetTime();
     if (init) {
         // Fixes an issues where the mouse would be set to the center, but that
@@ -13,8 +15,7 @@ void Player::updateCameraFromInputs(GLFWwindow *window)
         if (currentTime - lastTime < .1f) {
             return;
         }
-        // TODO: should be full screen now?
-        glfwSetCursorPos(window, 1024 / 2, 768 / 2);
+        glfwSetCursorPos(window, width / 2, height / 2);
         init = false;
     }
     float deltaTime = float(currentTime - lastTime);
@@ -22,11 +23,11 @@ void Player::updateCameraFromInputs(GLFWwindow *window)
     // Start with mouse position
     double xpos, ypos;
     glfwGetCursorPos(window, &xpos, &ypos);
-    glfwSetCursorPos(window, 1024 / 2, 768 / 2);
+    glfwSetCursorPos(window, width / 2, height / 2);
 
-    horizontalAngle += mouseSpeed * deltaTime * float(1024 / 2 - xpos);
+    horizontalAngle += mouseSpeed * deltaTime * float(width / 2 - xpos);
     // -= because I like inverted y-axis stuff
-    verticalAngle += mouseSpeed * deltaTime * float(768 / 2 - ypos);
+    verticalAngle += mouseSpeed * deltaTime * float(height / 2 - ypos);
 
     glm::vec3 front(sin(horizontalAngle), 0, cos(horizontalAngle));
 
