@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <sstream>
 #include <map>
 #include <string>
 
@@ -297,18 +298,26 @@ int main()
     fflush(stdout);
 #endif
 
+    double last_ms = 0.0;
     do {
 // Measure speed
+        std::ostringstream strs;
+        strs << "Forest: ";
 #ifdef COMPILE_WITH_PERFORMANCE_TOOLS
         double currentTime = glfwGetTime();
         nbFrames++;
         if (currentTime - lastTime >= 1.0) {  // If last print was more than 1s ago
-            // printf and reset timer
-            printf("%f ms/frame\n", 1000.0 / double(nbFrames));
+            // save fps and reset timer.
+            last_ms = 1000.0 / double(nbFrames);
             nbFrames = 0;
             lastTime += 1.0;
         }
+#else
+        strs << " Bryce Willey";
 #endif
+
+        strs << last_ms << " ms/frame";
+        
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -318,7 +327,7 @@ int main()
         glfwGetWindowSize(window, &width, &height);
         float sx = 2.0 / width;
         float sy = 2.0 / height;
-        //RenderText(fontID, "Hi there, here's a longer line.", -1 + 8 * sx, 1 - 200 * sx, sx, sy, glm::vec4(1.0, 0.0, 0.0, 1.0));
+        RenderText(fontID, strs.str(), -1 + 8 * sx, 1 - 200 * sx, sx, sy, glm::vec4(0.2, 1.0, 0.0, 1.0));
         glUseProgram(programID);
         glfwPollEvents();
         player.updateCameraFromInputs(window);
