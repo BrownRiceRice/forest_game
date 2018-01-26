@@ -32,6 +32,13 @@ struct Character {
     GLuint Advance;      // Offset to advance to the next glyph.
 };
 
+struct point {
+    GLfloat x;
+    GLfloat y;
+    GLfloat s;
+    GLfloat t;
+};
+
 std::map<GLchar, Character> Characters;
 
 GLuint VAO, VBO;
@@ -42,12 +49,76 @@ FT_Face face;
 /**
  * Renders a line of text.
  */
-void RenderText(GLuint shaderProgramID, std::string text, GLfloat x, GLfloat y, GLfloat scale,
-                glm::vec3 color)
+void RenderText(GLuint shaderProgramID, std::string text, GLfloat x, GLfloat y, GLfloat sx, GLfloat sy,
+                glm::vec4 color)
 {
+    // Create a texture that will be used to hold one "glyph".
+    GLuint tex;
+    GLint uniform_tex;
+    FT_GlyphSlot g = face->glyph;
+
     glUseProgram(shaderProgramID);
-    glUniform3f(glGetUniformLocation(shaderProgramID, "textColor"), color.x, color.y, color.z);
+    //glClearColor(0.0f, 0.0f, 0.2f, 0.0f);
+    //glClear(GL_COLOR_BUFFER_BIT);
+    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    // TODO: Resize based on window size.
+    FT_Set_Pixel_Sizes(face, 0, 48);
+
+    glUniform4f(glGetUniformLocation(shaderProgramID, "textColor"), color.x, color.y, color.z, color.w);
     glActiveTexture(GL_TEXTURE0);
+    glGenTextures(1, &tex);
+    glBindTexture(GL_TEXTURE_2D, tex);
+    glUniform1i(uniform_tex, 0);
+
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+    /* Clamping to edges prevents artifacts. */
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    /* Linear filtering looks the best with text. */
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    glEnableVertexAttribArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    
+    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
+
+    for (auto c : text) 
+    {
+        if (FT_Load_Char(face, c, FT_LOAD_RENDER))
+            continue;
+        
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, g->bitmap.width, g->bitmap.rows,
+                     0, GL_RED, GL_UNSIGNED_BYTE, g->bitmap.buffer);
+
+        float x2 = x + g->bitmap_left * sx;
+        float y2 = -y - g->bitmap_top * sy;
+        float w = g->bitmap.width * sx;
+        float h = g->bitmap.rows * sy;
+ 
+        point box[4] = {
+            {x2, -y2, 0, 0},
+            {x2 + w, -y2, 1, 0},
+            {x2, -y2 - h, 0, 1},
+            {x2 + w, -y2 - h, 1, 1},
+        };
+
+        glBufferData(GL_ARRAY_BUFFER, sizeof box, box, GL_DYNAMIC_DRAW);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+        x += (g->advance.x >> 6) * sx;
+        y += (g->advance.y >> 6) * sy;
+    }
+    glDisableVertexAttribArray(0);
+    glDeleteTextures(1, &tex);
+    glDisable(GL_BLEND);
+    return;
+
+    /*
     glBindVertexArray(VAO);
 
     std::string::const_iterator c;
@@ -71,6 +142,7 @@ void RenderText(GLuint shaderProgramID, std::string text, GLfloat x, GLfloat y, 
     }
     //glBindVertexArray(0);
     //glBindTexture(GL_TEXTURE_2D, 0);
+    */
 }
 
 void key_callback(GLFWwindow * window, int key, int scancode, int action, int mods)
@@ -92,6 +164,7 @@ int init_resources()
     if (FT_New_Face(ft, "../fonts/arial.ttf", 0, &face) != 0) {
         std::cerr << "ERROR::FREETYPE: Failed to load font" << std::endl;
     }
+    glGenBuffers(1, &VBO);
 }
 
 int init_glfw()
@@ -158,9 +231,6 @@ int main()
     }
 
     init_resources();
-    // TODO: Resize based on window size.
-    FT_Set_Pixel_Sizes(face, 0, 48);
-
     // Dark blue background
     glClearColor(0.0f, 0.0f, 0.2f, 0.0f);
 
@@ -168,7 +238,9 @@ int main()
     glEnable(GL_DEPTH_TEST);
     // Accept fragment if it closer to the camera than the former one
     glDepthFunc(GL_LESS);
+ 
 
+    /*
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);  // Disable byte-alignment restriction
 
     for (GLubyte c = 0; c < 128; c++) {
@@ -202,10 +274,7 @@ int main()
     }
     FT_Done_Face(face);
     FT_Done_FreeType(ft);
-
-    // REquired for Font fragment shader.
-    //glEnable(GL_BLEND);
-    //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    */
 
     GLuint programID = LoadShaders("SimpleVertexShader.glsl", "SimpleFragmentShader.glsl");
     // Shaders for fonts.
@@ -243,6 +312,13 @@ int main()
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        // Render Text.
+        // TODO: follow OpenGL_programming: Modern_OpenGL_Tutorial_Text_Rendering front to back when you have time.
+        int width, height;
+        glfwGetWindowSize(window, &width, &height);
+        float sx = 2.0 / width;
+        float sy = 2.0 / height;
+        //RenderText(fontID, "Hi there, here's a longer line.", -1 + 8 * sx, 1 - 200 * sx, sx, sy, glm::vec4(1.0, 0.0, 0.0, 1.0));
         glUseProgram(programID);
         glfwPollEvents();
         player.updateCameraFromInputs(window);
@@ -250,9 +326,6 @@ int main()
         w.Render(player.getProjectionMatrix(), player.getPosition(), player.getDirection(),
                  player.getUp());
 
-        // Render Text.
-        // TODO: follow OpenGL_programming: Modern_OpenGL_Tutorial_Text_Rendering front to back when you have time.
-        //RenderText(fontID, "Hi", 0.0, 0.0, 10.0, glm::vec3(1.0, 0.0, 0.0));
 
         // Swap buffers
         glfwSwapBuffers(window);
