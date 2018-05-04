@@ -119,32 +119,6 @@ void RenderText(GLuint shaderProgramID, std::string text, GLfloat x, GLfloat y, 
     glDeleteTextures(1, &tex);
     glDisable(GL_BLEND);
     return;
-
-    /*
-    glBindVertexArray(VAO);
-
-    std::string::const_iterator c;
-    for (c = text.begin(); c != text.end(); c++) {
-        Character ch = Characters[*c];
-        GLfloat xpos = x + ch.Bearing.x * scale;
-        GLfloat ypos = y - (ch.Size.y - ch.Bearing.y) * scale;
-
-        GLfloat w = ch.Size.x * scale;
-        GLfloat h = ch.Size.y * scale;
-
-        GLfloat vertices[6][4] = {{xpos, ypos + h, 0.0, 0.0}, {xpos, ypos, 0.0, 1.0},
-                                  {xpos + w, ypos, 1.0, 1.0}, {xpos, ypos + h, 0.0, 0.0},
-                                  {xpos + w, ypos, 0.0, 1.0}, {xpos + w, ypos + h, 1.0, 1.0}};
-        glBindTexture(GL_TEXTURE_2D, ch.TextureID);
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-        x += (ch.Advance >> 6) * scale;
-    }
-    //glBindVertexArray(0);
-    //glBindTexture(GL_TEXTURE_2D, 0);
-    */
 }
 
 void key_callback(GLFWwindow * window, int key, int scancode, int action, int mods)
@@ -240,43 +214,6 @@ int main()
     glEnable(GL_DEPTH_TEST);
     // Accept fragment if it closer to the camera than the former one
     glDepthFunc(GL_LESS);
- 
-
-    /*
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);  // Disable byte-alignment restriction
-
-    for (GLubyte c = 0; c < 128; c++) {
-        if (FT_Load_Char(face, c, FT_LOAD_RENDER) != 0) {
-            std::cout << "ERROR::FREETYPE: Failed to load Glyph" << std::endl;
-            continue;
-        }
-        GLuint texture;
-        glGenTextures(1, &texture);
-        glBindTexture(GL_TEXTURE_2D, texture);
-        glTexImage2D(       // Specifies a 2D texture image.
-            GL_TEXTURE_2D,  // Target
-            0,              // level
-            GL_RED,         // internal format
-            face->glyph->bitmap.width, face->glyph->bitmap.rows,
-            0,                          // border
-            GL_RED,                     // format
-            GL_UNSIGNED_BYTE,           // type
-            face->glyph->bitmap.buffer  // data
-            );
-        // St texture options
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        Character character = {texture,
-                               glm::ivec2(face->glyph->bitmap.width, face->glyph->bitmap.rows),
-                               glm::ivec2(face->glyph->bitmap_left, face->glyph->bitmap_top),
-                               static_cast<GLuint>(face->glyph->advance.x)};
-        Characters.insert(std::pair<GLchar, Character>(c, character));
-    }
-    FT_Done_Face(face);
-    FT_Done_FreeType(ft);
-    */
 
     GLuint programID = LoadShaders("SimpleVertexShader.glsl", "SimpleFragmentShader.glsl");
     // Shaders for fonts.
