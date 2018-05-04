@@ -1,5 +1,3 @@
-# CMake entry point.
-
 # For an introduction to CMake, see
 # http://www.cmake.org/cmake/help/cmake_tutorial.html (at least steps 1 and 2)
 cmake_minimum_required (VERSION 3.1.0 FATAL_ERROR)
@@ -53,14 +51,14 @@ include_directories(
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-# Add a checkbox in CMakeGUI :
-set(PERFORMANCE_TOOLS ON BOOL "Check this to print out performance data.")
+# Options
+option(PERFORMANCE_TOOLS "Check this to print out performance data." OFF)
 
 # Add a preprocessor define :
 if(PERFORMANCE_TOOLS)
     message("Compiling with performance tools...")
 	add_definitions(
-		-DCOMPILE_WITH_PERFORMANCE_TOOLS
+		-DPERFORMANCE_TOOLS
 	)
 endif(PERFORMANCE_TOOLS)
 

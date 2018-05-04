@@ -291,9 +291,10 @@ int main()
 
     Player player(glm::vec3(0, 1.7, 0));
 
-#ifdef COMPILE_WITH_PERFORMANCE_TOOLS
+#ifdef PERFORMANCE_TOOLS
     double lastTime = glfwGetTime();
     int nbFrames = 0;
+    double last_ms = 0.0;
     printf("Showing performance and debug tools. Printing average ms per frame.\n");
     fflush(stdout);
 #endif
@@ -303,7 +304,6 @@ int main()
 // Measure speed
         std::ostringstream strs;
         strs << "Forest: ";
-#ifdef COMPILE_WITH_PERFORMANCE_TOOLS
         double currentTime = glfwGetTime();
         nbFrames++;
         if (currentTime - lastTime >= 1.0) {  // If last print was more than 1s ago
@@ -312,30 +312,10 @@ int main()
             nbFrames = 0;
             lastTime += 1.0;
         }
-#else
-        strs << " Bryce Willey";
-#endif
-
         strs << last_ms << " ms/frame";
-        
-
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        // Render Text.
-        // TODO: follow OpenGL_programming: Modern_OpenGL_Tutorial_Text_Rendering front to back when you have time.
-        int width, height;
-        glfwGetWindowSize(window, &width, &height);
-        float sx = 2.0 / width;
-        float sy = 2.0 / height;
         RenderText(fontID, strs.str(), -1 + 8 * sx, 1 - 200 * sx, sx, sy, glm::vec4(0.2, 1.0, 0.0, 1.0));
-        glUseProgram(programID);
-        glfwPollEvents();
-        player.updateCameraFromInputs(window);
-        w.updateExploredSquares(window, player.getPosition(), player.horizontalAngle);
-        w.Render(player.getProjectionMatrix(), player.getPosition(), player.getDirection(),
-                 player.getUp());
-
-
+#endif
+        
         // Swap buffers
         glfwSwapBuffers(window);
 
