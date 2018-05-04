@@ -47,6 +47,9 @@ FT_Face face;
 
 /**
  * Renders a line of text.
+ * @param x: x position of the bottom left corner of the text. Left side of the screen is -1,
+ *           right side is 1 (but text will be to the left of that), and 0 is the center.
+ * @param y: y position of the bottom left corner of the text. Top is 1, bottom is -1, center is 0.
  */
 void RenderText(GLuint shaderProgramID, std::string text, GLfloat x, GLfloat y, GLfloat sx, GLfloat sy,
                 glm::vec4 color)
@@ -297,9 +300,63 @@ int main()
     fflush(stdout);
 #endif
 
-    double last_ms = 0.0;
+    // Settings for the intro titles.
+    std::vector<std::string> title_strings = {"Ghost Bike Studios Presents", "A Game by Bryce Willey", "Forest"};
+    std::vector<bool> fades = {false, false, true};
+    std::vector<double> begin_times = {0.0, 5.0, 10.0};
+    std::vector<double> end_times = {3.0, 8.0, 17.0};
+    std::vector<double> xs = {-0.4, -0.2, -0.05};
+    double blank_seperator = 2.0;
+
+    double start_title = glfwGetTime();
     do {
-// Measure speed
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        glUseProgram(programID);
+        glfwPollEvents();
+        player.updateCameraFromInputs(window);
+        w.updateExploredSquares(window, player.getPosition(), player.horizontalAngle);
+        w.Render(player.getProjectionMatrix(), player.getPosition(), player.getDirection(),
+                 player.getUp());
+
+        // Render Text.
+        // TODO: follow OpenGL_programming: Modern_OpenGL_Tutorial_Text_Rendering front to back when you have time.
+        int width, height;
+        glfwGetWindowSize(window, &width, &height);
+        float sx = 2.0 / width;
+        float sy = 2.0 / height;
+        double current_print_time = glfwGetTime();
+        double ticker = current_print_time - start_title;
+        if (ticker >= begin_times.front() && ticker <= end_times.back())
+        {
+            // Which title are we on.
+            int title = 0;
+            while (title < begin_times.size() - 1 && ticker > begin_times[title + 1])
+                title++;
+            
+            if (ticker < end_times[title])
+            {
+                double transparency;
+                if (fades[title])
+                {
+                    double diff = end_times[title] - begin_times[title];
+                    transparency = (diff - (ticker - begin_times[title])) / diff;
+                }
+                else
+                {
+                    transparency = 1.0;
+                }
+                // Render The title.
+                RenderText(fontID, title_strings[title], xs[title], 0.0, 1.4*sx, 1.4*sy, glm::vec4(0.2, 0.0, 1.0, transparency));
+            }
+            else
+            {
+                // Do nothing, we should be in a blank slide.
+            }
+        }
+
+#ifdef PERFORMANCE_TOOLS
+        // Measure speed
         std::ostringstream strs;
         strs << "Forest: ";
         double currentTime = glfwGetTime();
