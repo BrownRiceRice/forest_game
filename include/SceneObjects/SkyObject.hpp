@@ -27,7 +27,7 @@ class SkyObject : public SceneObject
     double lastTime;
     // The amount radians that the stars turn.
     float skyTurn = 0.0;
-    const float skyTurnSpeed = 0.02f;
+    const float skyTurnSpeed = 0.01f;
 };
 }
 

@@ -19,8 +19,6 @@
 
 #include <unistd.h>
 
-// TODO: finish adding 2d text on the screen.
-
 using namespace ParamWorld;
 
 GLFWwindow *window;
